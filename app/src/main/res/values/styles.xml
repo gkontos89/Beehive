@@ -6,6 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/BeehiveActionBar</item>
+    </style>
+
+    <!-- Title bar text -->
+    <style name="BeehiveActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="titleTextStyle">@style/BeehiveTextStyle</item>
+    </style>
+    <style name="BeehiveTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <!-- Beehive buttons -->
+    <style name="BeehiveButton" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
 </resources>
