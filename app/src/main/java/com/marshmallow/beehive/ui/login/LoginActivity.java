@@ -1,7 +1,9 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.ui.login;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.marshmallow.beehive.R;
 
 public class LoginActivity extends AppCompatActivity {
 
