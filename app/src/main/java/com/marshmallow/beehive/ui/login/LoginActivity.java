@@ -1,13 +1,15 @@
 package com.marshmallow.beehive.ui.login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.backendCommunications.BeehiveBackend;
+import com.marshmallow.beehive.ui.home.HomeActivity;
+import com.marshmallow.beehive.ui.welcome.WelcomeActivity;
 
 public class LoginActivity extends AppCompatActivity  implements View.OnClickListener{
 
@@ -29,9 +31,10 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        // Check if the user is already signed in and if so move to main screen
+        // Check if the user is already signed in and if so move to home screen
         if (BeehiveBackend.getInstance().isUserSignedIn()) {
-            // TODO Move to home screen
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -48,11 +51,16 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     }
 
     private void createAccount(String email, String password) {
-        BeehiveBackend.getInstance().createUserWithEmailAndPassword(this, email, password);
+        if (BeehiveBackend.getInstance().createUserWithEmailAndPassword(email, password)) {
+            accountCreationSuccess();
+        } else {
+            accountCreationFailed();
+        }
     }
 
     public void accountCreationSuccess() {
-
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        startActivity(intent);
     }
 
     public void accountCreationFailed() {
@@ -60,11 +68,16 @@ public class LoginActivity extends AppCompatActivity  implements View.OnClickLis
     }
 
     private void signIn(String email, String password) {
-        BeehiveBackend.getInstance().signInWithEmailAndPassword(this, email, password);
+        if (BeehiveBackend.getInstance().signInWithEmailAndPassword(email, password)) {
+            signInSucceeded();
+        } else {
+            signInFailed();
+        }
     }
 
     public void signInSucceeded() {
-
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 
     public void signInFailed() {

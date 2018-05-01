@@ -18,11 +18,13 @@ public interface BeehiveBackendInterface {
 
     /**
      * Attempts to create a new user with email and password credentials
+     * @return true if account creation succeeds
      */
-    void createUserWithEmailAndPassword(Context context, String email, String password);
+    Boolean createUserWithEmailAndPassword(String email, String password);
 
     /**
      * Attempts to sign in to an existing account using email and password credentials
+     * * @return true if sign in was successful
      */
-    void signInWithEmailAndPassword(Context context, String email, String password);
+    Boolean signInWithEmailAndPassword(String email, String password);
 }
