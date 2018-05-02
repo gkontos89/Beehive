@@ -1,5 +1,6 @@
 package com.marshmallow.beehive.backendCommunications;
 
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -20,11 +21,11 @@ public interface BeehiveBackendInterface {
      * Attempts to create a new user with email and password credentials
      * @return true if account creation succeeds
      */
-    Boolean createUserWithEmailAndPassword(String email, String password);
+    Boolean createUserWithEmailAndPassword(Activity activity, String email, String password);
 
     /**
      * Attempts to sign in to an existing account using email and password credentials
      * * @return true if sign in was successful
      */
-    Boolean signInWithEmailAndPassword(String email, String password);
+    Boolean signInWithEmailAndPassword(Context context, String email, String password);
 }

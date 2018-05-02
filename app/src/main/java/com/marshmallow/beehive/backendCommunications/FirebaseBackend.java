@@ -1,11 +1,15 @@
 package com.marshmallow.beehive.backendCommunications;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.marshmallow.beehive.ui.login.LoginActivity;
 
 /**
  * This class implements Firebase backend communications
@@ -19,17 +23,20 @@ public class FirebaseBackend implements BeehiveBackendInterface {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    public FirebaseAuth getFirebaseAuth() { return firebaseAuth; }
+
     @Override
     public Boolean isUserSignedIn() {
         return (firebaseAuth.getCurrentUser() != null);
     }
 
     @Override
-    public Boolean createUserWithEmailAndPassword(String email, String password) {
+    public Boolean createUserWithEmailAndPassword(final Activity activity, String email, String password) {
         Task<AuthResult> resultTask = firebaseAuth.createUserWithEmailAndPassword(email, password);
-        resultTask.addOnCompleteListener(new OnCompleteListener< AuthResult>() {
+        resultTask.addOnCompleteListener(activity, new OnCompleteListener< AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.e("hello", "done!?");
             }
         });
 
@@ -37,7 +44,7 @@ public class FirebaseBackend implements BeehiveBackendInterface {
     }
 
     @Override
-    public Boolean signInWithEmailAndPassword(String email, String password) {
+    public Boolean signInWithEmailAndPassword(Context context, String email, String password) {
         Task<AuthResult> resultTask = firebaseAuth.signInWithEmailAndPassword(email, password);
         resultTask.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

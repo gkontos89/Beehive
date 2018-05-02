@@ -1,6 +1,9 @@
 package com.marshmallow.beehive.backendCommunications;
 
+import android.app.Activity;
 import android.content.Context;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * BeehiveBackend is the front facing API's that are used throughout the application.
@@ -31,12 +34,14 @@ public class BeehiveBackend implements BeehiveBackendInterface {
     }
 
     @Override
-    public Boolean createUserWithEmailAndPassword(String email, String password) {
-        return backendHandle.createUserWithEmailAndPassword(email, password);
+    public Boolean createUserWithEmailAndPassword(Activity activity, String email, String password) {
+        return backendHandle.createUserWithEmailAndPassword(activity, email, password);
     }
 
     @Override
-    public Boolean signInWithEmailAndPassword(String email, String password) {
-        return backendHandle.signInWithEmailAndPassword(email, password);
+    public Boolean signInWithEmailAndPassword(Context context, String email, String password) {
+        return backendHandle.signInWithEmailAndPassword(context, email, password);
     }
+
+    public FirebaseAuth getFirebaseAuth() { return backendHandle.getFirebaseAuth(); }
 }
