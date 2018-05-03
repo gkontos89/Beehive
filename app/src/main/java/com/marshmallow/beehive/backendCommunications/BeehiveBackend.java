@@ -43,5 +43,7 @@ public class BeehiveBackend implements BeehiveBackendInterface {
         return backendHandle.signInWithEmailAndPassword(context, email, password);
     }
 
-    public FirebaseAuth getFirebaseAuth() { return backendHandle.getFirebaseAuth(); }
+    public void signOut() {
+        backendHandle.signOut();
+    }
 }

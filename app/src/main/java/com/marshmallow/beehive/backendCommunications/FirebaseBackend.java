@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,8 +25,6 @@ public class FirebaseBackend implements BeehiveBackendInterface {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public FirebaseAuth getFirebaseAuth() { return firebaseAuth; }
-
     @Override
     public Boolean isUserSignedIn() {
         return (firebaseAuth.getCurrentUser() != null);
@@ -38,12 +37,11 @@ public class FirebaseBackend implements BeehiveBackendInterface {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Intent intent = new Intent();
+                        intent.setAction(BackendBroadcasting.getCreateAccountStatusAction());
                         if (task.isSuccessful()) {
-                            intent.setAction(BackendBroadcasting.getCreateAccountStatusAction());
                             BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL;
                             status.attachTo(intent);
                         } else {
-                            intent.setAction(BackendBroadcasting.getLoginStatusAction());
                             BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_FAILED;
                             status.attachTo(intent);
                         }
@@ -63,5 +61,9 @@ public class FirebaseBackend implements BeehiveBackendInterface {
         });
 
         return resultTask.isSuccessful();
+    }
+
+    public void signOut() {
+        firebaseAuth.signOut();
     }
 }

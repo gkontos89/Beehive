@@ -30,7 +30,7 @@ public final class BackendBroadcasting {
                 throw new IllegalStateException();
             }
 
-            return values()[intent.getIntExtra((name, -1)];
+            return values()[intent.getIntExtra(name, -1)];
         }
     }
 

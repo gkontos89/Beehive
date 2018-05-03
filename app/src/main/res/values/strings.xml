@@ -7,4 +7,6 @@
     <string name="create_account_button_text">Create Account</string>
     <string name="signing_in_progress_string">Signing In...</string>
     <string name="creating_account_progress_string">Creating Account...</string>
+    <string name="sign_out_button_text">Sign Out</string>
+    <string name="delete_account_button_text">Delete Account</string>
 </resources>

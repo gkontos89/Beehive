@@ -19,6 +19,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private TextView emailTextEntry;
     private TextView passwordTextEntry;
+    private IntentFilter intentFilter;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
         // Set up broadcastReceiver and its filter
-        IntentFilter intentFilter = new IntentFilter();
+        intentFilter = new IntentFilter();
         intentFilter.addAction(BackendBroadcasting.getCreateAccountStatusAction());
         intentFilter.addAction(BackendBroadcasting.getLoginStatusAction());
 
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // Handle back end status pertaining to the login screen
@@ -64,7 +66,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onPause()
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
 
     @Override
     public void onStart() {
