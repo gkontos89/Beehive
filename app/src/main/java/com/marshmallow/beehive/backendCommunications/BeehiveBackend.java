@@ -39,11 +39,12 @@ public class BeehiveBackend implements BeehiveBackendInterface {
     }
 
     @Override
-    public Boolean signInWithEmailAndPassword(Context context, String email, String password) {
-        return backendHandle.signInWithEmailAndPassword(context, email, password);
+    public void signInWithEmailAndPassword(Context context, Activity activity, String email, String password) {
+        backendHandle.signInWithEmailAndPassword(context, activity, email, password);
     }
 
-    public void signOut() {
-        backendHandle.signOut();
+    @Override
+    public void signOutUser() {
+        backendHandle.signOutUser();
     }
 }

@@ -14,8 +14,8 @@ public final class BackendBroadcasting {
     public enum Status {
         CREATE_ACCOUNT_SUCCESSFUL,
         CREATE_ACCOUNT_FAILED,
-        LOGIN_SUCCESSFUL,
-        LOGIN_FAILED;
+        SIGN_IN_SUCCESSFUL,
+        SIGN_IN_FAILED;
 
         private static final String name = Status.class.getName();
 
@@ -35,8 +35,10 @@ public final class BackendBroadcasting {
     }
 
     private static final String createAccountStatusAction = "createAccountStatusAction";
-    private static final String loginStatusAction = "loginStatusAction";
+    private static final String signInStatusAction = "signInStatusAction";
+    private static final String failureInfoExtra = "failureInfoExtra";
 
     public static final String getCreateAccountStatusAction() { return createAccountStatusAction; }
-    public static final String getLoginStatusAction() { return loginStatusAction; }
+    public static final String getSignInStatusAction() { return signInStatusAction; }
+    public static final String getFailureInfoExtra() { return failureInfoExtra; }
 }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.backendCommunications.BackendBroadcasting;
@@ -36,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Set up broadcastReceiver and its filter
         intentFilter = new IntentFilter();
         intentFilter.addAction(BackendBroadcasting.getCreateAccountStatusAction());
-        intentFilter.addAction(BackendBroadcasting.getLoginStatusAction());
+        intentFilter.addAction(BackendBroadcasting.getSignInStatusAction());
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -47,16 +48,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (status == BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL) {
                         accountCreationSuccess();
                     } else if (status == BackendBroadcasting.Status.CREATE_ACCOUNT_FAILED) {
-                        accountCreationFailed();
+                        accountCreationFailed(intent.getStringExtra(BackendBroadcasting.getFailureInfoExtra()));
                     } else {
                         // TODO throw custom error
                     }
-                } else if (intent.getAction().equals(BackendBroadcasting.getLoginStatusAction())) {
+                } else if (intent.getAction().equals(BackendBroadcasting.getSignInStatusAction())) {
                     BackendBroadcasting.Status status = BackendBroadcasting.Status.detachFrom(intent);
-                    if (status == BackendBroadcasting.Status.LOGIN_SUCCESSFUL) {
+                    if (status == BackendBroadcasting.Status.SIGN_IN_SUCCESSFUL) {
                         signInSucceeded();
-                    } else if (status == BackendBroadcasting.Status.LOGIN_FAILED) {
-                        signInFailed();
+                    } else if (status == BackendBroadcasting.Status.SIGN_IN_FAILED) {
+                        signInFailed(intent.getStringExtra(BackendBroadcasting.getFailureInfoExtra()));
                     }
                 }
             }
@@ -95,19 +96,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     this,
                     emailTextEntry.getText().toString(),
                     passwordTextEntry.getText().toString());
-//            createAccount(emailTextEntry.getText().toString(), passwordTextEntry.getText().toString());
-//            FirebaseAuth firebaseAuth = BeehiveBackend.getInstance().getFirebaseAuth();
-//            Task<AuthResult> resultTask = firebaseAuth.createUserWithEmailAndPassword(emailTextEntry.getText().toString(), passwordTextEntry.getText().toString());
-//            resultTask.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            accountCreationSuccess();
-//                        }
-//                    });
         }
         // Handle Sign in
         else if (view.getId() == R.id.sign_in_button) {
-            signIn(emailTextEntry.getText().toString(), passwordTextEntry.getText().toString());
+            BeehiveBackend.getInstance().signInWithEmailAndPassword(getApplicationContext(),
+                    this,
+                    emailTextEntry.getText().toString(),
+                    passwordTextEntry.getText().toString());
         }
     }
 
@@ -116,16 +111,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
     }
 
-    public void accountCreationFailed() {
-
-    }
-
-    private void signIn(String email, String password) {
-        if (BeehiveBackend.getInstance().signInWithEmailAndPassword(this, email, password)) {
-            signInSucceeded();
-        } else {
-            signInFailed();
-        }
+    public void accountCreationFailed(String failureString) {
+        Toast.makeText(this, "Account Creation Failed: " + failureString, Toast.LENGTH_SHORT).show();
     }
 
     public void signInSucceeded() {
@@ -133,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
     }
 
-    public void signInFailed() {
-
+    public void signInFailed(String failureString) {
+        Toast.makeText(this, "Sign In Failed: " + failureString, Toast.LENGTH_SHORT).show();
     }
 }
