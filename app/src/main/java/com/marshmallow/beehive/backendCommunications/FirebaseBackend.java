@@ -2,6 +2,7 @@ package com.marshmallow.beehive.backendCommunications;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -31,16 +32,25 @@ public class FirebaseBackend implements BeehiveBackendInterface {
     }
 
     @Override
-    public Boolean createUserWithEmailAndPassword(final Activity activity, String email, String password) {
-        Task<AuthResult> resultTask = firebaseAuth.createUserWithEmailAndPassword(email, password);
-        resultTask.addOnCompleteListener(activity, new OnCompleteListener< AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.e("hello", "done!?");
-            }
-        });
+    public void createUserWithEmailAndPassword(final Context context, final Activity activity, String email, String password) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity, new OnCompleteListener< AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Intent intent = new Intent();
+                        if (task.isSuccessful()) {
+                            intent.setAction(BackendBroadcasting.getCreateAccountStatusAction());
+                            BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL;
+                            status.attachTo(intent);
+                        } else {
+                            intent.setAction(BackendBroadcasting.getLoginStatusAction());
+                            BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_FAILED;
+                            status.attachTo(intent);
+                        }
 
-        return resultTask.isSuccessful();
+                        context.sendBroadcast(intent);
+                    }
+                });
     }
 
     @Override

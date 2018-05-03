@@ -34,8 +34,8 @@ public class BeehiveBackend implements BeehiveBackendInterface {
     }
 
     @Override
-    public Boolean createUserWithEmailAndPassword(Activity activity, String email, String password) {
-        return backendHandle.createUserWithEmailAndPassword(activity, email, password);
+    public void createUserWithEmailAndPassword(Context context, Activity activity, String email, String password) {
+        backendHandle.createUserWithEmailAndPassword(context, activity, email, password);
     }
 
     @Override

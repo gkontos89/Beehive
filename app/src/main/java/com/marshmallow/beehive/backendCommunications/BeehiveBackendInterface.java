@@ -21,7 +21,7 @@ public interface BeehiveBackendInterface {
      * Attempts to create a new user with email and password credentials
      * @return true if account creation succeeds
      */
-    Boolean createUserWithEmailAndPassword(Activity activity, String email, String password);
+    void createUserWithEmailAndPassword(Context context, Activity activity, String email, String password);
 
     /**
      * Attempts to sign in to an existing account using email and password credentials

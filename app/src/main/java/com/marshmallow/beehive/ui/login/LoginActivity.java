@@ -1,23 +1,21 @@
 package com.marshmallow.beehive.ui.login;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.marshmallow.beehive.R;
+import com.marshmallow.beehive.backendCommunications.BackendBroadcasting;
 import com.marshmallow.beehive.backendCommunications.BeehiveBackend;
-import com.marshmallow.beehive.ui.BaseActivity;
 import com.marshmallow.beehive.ui.home.HomeActivity;
 import com.marshmallow.beehive.ui.welcome.WelcomeActivity;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView emailTextEntry;
     private TextView passwordTextEntry;
@@ -32,7 +30,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         passwordTextEntry = findViewById(R.id.password_text);
         findViewById(R.id.create_account_button).setOnClickListener(this);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
+
+        // Set up broadcastReceiver and its filter
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BackendBroadcasting.getCreateAccountStatusAction());
+        intentFilter.addAction(BackendBroadcasting.getLoginStatusAction());
+
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Handle back end status pertaining to the login screen
+                if (intent.getAction().equals(BackendBroadcasting.getCreateAccountStatusAction())) {
+                    BackendBroadcasting.Status status = BackendBroadcasting.Status.detachFrom(intent);
+                    if (status == BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL) {
+                        accountCreationSuccess();
+                    } else if (status == BackendBroadcasting.Status.CREATE_ACCOUNT_FAILED) {
+                        accountCreationFailed();
+                    } else {
+                        // TODO throw custom error
+                    }
+                } else if (intent.getAction().equals(BackendBroadcasting.getLoginStatusAction())) {
+                    BackendBroadcasting.Status status = BackendBroadcasting.Status.detachFrom(intent);
+                    if (status == BackendBroadcasting.Status.LOGIN_SUCCESSFUL) {
+                        signInSucceeded();
+                    } else if (status == BackendBroadcasting.Status.LOGIN_FAILED) {
+                        signInFailed();
+                    }
+                }
+            }
+        };
+
+        registerReceiver(broadcastReceiver, intentFilter);
     }
+
+    @Override
+    public void onPause()
 
     @Override
     public void onStart() {
@@ -48,7 +80,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
         // Handle Account creation
         if (view.getId() == R.id.create_account_button) {
-            createAccount(emailTextEntry.getText().toString(), passwordTextEntry.getText().toString());
+            BeehiveBackend.getInstance().createUserWithEmailAndPassword(getApplicationContext(),
+                    this,
+                    emailTextEntry.getText().toString(),
+                    passwordTextEntry.getText().toString());
+//            createAccount(emailTextEntry.getText().toString(), passwordTextEntry.getText().toString());
 //            FirebaseAuth firebaseAuth = BeehiveBackend.getInstance().getFirebaseAuth();
 //            Task<AuthResult> resultTask = firebaseAuth.createUserWithEmailAndPassword(emailTextEntry.getText().toString(), passwordTextEntry.getText().toString());
 //            resultTask.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -64,17 +100,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    private void createAccount(String email, String password) {
-        showCreateAccountProgressDialog();
-        if (BeehiveBackend.getInstance().createUserWithEmailAndPassword(this, email, password)) {
-            accountCreationSuccess();
-        } else {
-            accountCreationFailed();
-        }
-
-        hideProgressDialog();
-    }
-
     public void accountCreationSuccess() {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
@@ -85,14 +110,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void signIn(String email, String password) {
-        showSignInProgressDialog();
         if (BeehiveBackend.getInstance().signInWithEmailAndPassword(this, email, password)) {
             signInSucceeded();
         } else {
             signInFailed();
         }
-
-        hideProgressDialog();
     }
 
     public void signInSucceeded() {
