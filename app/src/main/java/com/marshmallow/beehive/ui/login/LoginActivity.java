@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +21,14 @@ import com.marshmallow.beehive.ui.welcome.WelcomeActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // GUI handles
     private TextView emailTextEntry;
     private TextView passwordTextEntry;
+    private LinearLayout progressBarLinearLayout;
+    private ProgressBar progressBar;
+    private TextView progressBarText;
+
+    // BroadcastReceiver
     private IntentFilter intentFilter;
     private BroadcastReceiver broadcastReceiver;
 
@@ -31,6 +40,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Set GUI handles
         emailTextEntry = findViewById(R.id.email_text);
         passwordTextEntry = findViewById(R.id.password_text);
+        progressBarLinearLayout = findViewById(R.id.progress_bar_layout);
+        progressBar = findViewById(R.id.progress_bar);
+        progressBarText = findViewById(R.id.progress_bar_text);
+
         findViewById(R.id.create_account_button).setOnClickListener(this);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
@@ -92,35 +105,82 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         // Handle Account creation
         if (view.getId() == R.id.create_account_button) {
-            BeehiveBackend.getInstance().createUserWithEmailAndPassword(getApplicationContext(),
-                    this,
-                    emailTextEntry.getText().toString(),
-                    passwordTextEntry.getText().toString());
+            if (emailIsValid() && passwordIsValid()) {
+                showProgressBar("Creating Account...");
+                BeehiveBackend.getInstance().createUserWithEmailAndPassword(getApplicationContext(),
+                        this,
+                        emailTextEntry.getText().toString(),
+                        passwordTextEntry.getText().toString());
+            }
         }
         // Handle Sign in
         else if (view.getId() == R.id.sign_in_button) {
-            BeehiveBackend.getInstance().signInWithEmailAndPassword(getApplicationContext(),
-                    this,
-                    emailTextEntry.getText().toString(),
-                    passwordTextEntry.getText().toString());
+            if (emailIsValid() && passwordIsValid()) {
+                showProgressBar("Signing in...");
+                BeehiveBackend.getInstance().signInWithEmailAndPassword(getApplicationContext(),
+                        this,
+                        emailTextEntry.getText().toString(),
+                        passwordTextEntry.getText().toString());
+            }
+        }
+    }
+
+    public Boolean emailIsValid() {
+        String email = emailTextEntry.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            emailTextEntry.setError("Email Address Required");
+            return false;
+        } else {
+            emailTextEntry.setError(null);
+            return true;
+        }
+    }
+
+    public Boolean passwordIsValid() {
+        String password = passwordTextEntry.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            passwordTextEntry.setError("Empty Password Not Allowed");
+            return false;
+        } else {
+            passwordTextEntry.setError(null);
+            return true;
         }
     }
 
     public void accountCreationSuccess() {
+        hideProgressBar();
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
 
     public void accountCreationFailed(String failureString) {
+        hideProgressBar();
         Toast.makeText(this, "Account Creation Failed: " + failureString, Toast.LENGTH_SHORT).show();
     }
 
     public void signInSucceeded() {
+        hideProgressBar();
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
     public void signInFailed(String failureString) {
+        hideProgressBar();
         Toast.makeText(this, "Sign In Failed: " + failureString, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showProgressBar(String progressBarText) {
+        // Hide all views in this layout and only show the progress bar linear layout
+        findViewById(R.id.login_button_layout).setVisibility(View.GONE);
+        findViewById(R.id.account_info_layout).setVisibility(View.GONE);
+
+        this.progressBarText.setText(progressBarText);
+        progressBarLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar() {
+        progressBarLinearLayout.setVisibility(View.GONE);
+        findViewById(R.id.login_button_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.account_info_layout).setVisibility(View.VISIBLE);
     }
 }
