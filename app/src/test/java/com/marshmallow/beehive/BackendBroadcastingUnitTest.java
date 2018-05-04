@@ -1,8 +1,11 @@
 package com.marshmallow.beehive;
 
+import android.content.Intent;
+
 import com.marshmallow.beehive.backendCommunications.BackendBroadcasting;
 
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;

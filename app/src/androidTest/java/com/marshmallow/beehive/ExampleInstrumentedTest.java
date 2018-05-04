@@ -23,4 +23,42 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.marshmallow.beehive", appContext.getPackageName());
     }
+
+
+    public class WriteConfigurationUtil {
+        public static void writeConfiguration(Context ctx ) {
+            try (FileOutputStream openFileOutput = ctx.openFileOutput( "config.txt", Context.MODE_PRIVATE);) {
+                openFileOutput.write("This is a test1.".getBytes());
+                openFileOutput.write("This is a test2.".getBytes());
+            } catch (Exception e) {
+                // not handled
+            }
+        }
+    }
+
+    public class WriteConfigurationUtilTest {
+
+        @Rule
+        public MockitoRule rule = MockitoJUnit.rule();
+        @Mock
+        Context context;
+
+        @Mock
+        FileOutputStream fileOutputStream;
+
+
+        @Test
+        public void writeShouldWriteTwiceToFileSystem() {
+            try {
+                when(context.openFileOutput(anyString(), anyInt())).thenReturn(fileOutputStream);
+                Util.writeConfiguration(context);
+                verify(context, times(1)).openFileOutput(anyString(), anyInt());
+                verify(fileOutputStream, atLeast(2)).write(any(byte[].class));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail();
+            }
+        }
+    }
 }
