@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
 import com.marshmallow.beehive.ui.login.LoginActivity;
 
 /**
@@ -20,9 +21,11 @@ import com.marshmallow.beehive.ui.login.LoginActivity;
  */
 public class FirebaseBackend implements BeehiveBackendInterface {
     private FirebaseAuth firebaseAuth;
+    private FirebaseStorage firebaseStorage;
 
     public FirebaseBackend() {
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
     }
 
     @Override
