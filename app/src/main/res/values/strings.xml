@@ -9,4 +9,10 @@
     <string name="creating_account_progress_string">Creating Account...</string>
     <string name="sign_out_button_text">Sign Out</string>
     <string name="delete_account_button_text">Delete Account</string>
+
+    <string name="profile_setup_title">Beehive Profile Setup</string>
+    <string name="profile_name_title">Profile Name</string>
+    <string name="profile_quick_pitch_title">Quick Pitch</string>
+    <string name="profile_image_title">Select Profile Picture</string>
+    <string name="profile_next_button_title">Next</string>
 </resources>
