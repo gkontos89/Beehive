@@ -19,11 +19,18 @@
     <string name="profile_back_button_title">Back</string>
     <string name="profile_summary_title">Summary</string>
     <string name="profile_pursuits_and_passions_title">Pursuits and Passions</string>
-    <string name="profile_pursuits_and_passions_info">One per line, as many as you'd like!</string>
+    <string name="profile_pursuits_and_passions_info">One per line, as many as you\\'d like!</string>
     <string name="profile_pursuits_and_passions_button_text">Add Item</string>
     <string name="profile_story_question_title">Story Questions</string>
     <string name="profile_story_question_dummy_title">Placeholder</string>
     <string name="profile_setup_career_title">Career Points</string>
+
     <string name="career_point_title">Career Point</string>
+    <string name="career_point_location_title">Location</string>
+    <string name="career_point_start_title">Start Date</string>
+    <string name="career_point_end_title">End Date</string>
+    <string name="career_position_title">Position</string>
+    <string name="career_position_summary_title">Summary</string>
+
 
 </resources>
