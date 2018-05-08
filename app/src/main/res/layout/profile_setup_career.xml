@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/profile_setup_career_title"
+        android:textSize="30sp"/>
+
+    <ListView
+        android:id="@+id/profile_career_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+
+    </ListView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_back_button_title"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="50dp"
+            android:theme="@style/BeehiveButton"/>
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_next_button_title"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            android:theme="@style/BeehiveButton"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -22,5 +22,8 @@
     <string name="profile_pursuits_and_passions_info">One per line, as many as you'd like!</string>
     <string name="profile_pursuits_and_passions_button_text">Add Item</string>
     <string name="profile_story_question_title">Story Questions</string>
+    <string name="profile_story_question_dummy_title">Placeholder</string>
+    <string name="profile_setup_career_title">Career Points</string>
+    <string name="career_point_title">Career Point</string>
 
 </resources>
