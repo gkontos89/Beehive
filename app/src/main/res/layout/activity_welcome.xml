@@ -13,6 +13,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WECOME"
-        android:textSize="40dp"/>
+        android:text="WELCOME"
+        android:textSize="40sp"/>
+
+    <Button
+        android:id="@+id/setup_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Setup profile"
+        android:theme="@style/BeehiveButton"/>
 </LinearLayout>

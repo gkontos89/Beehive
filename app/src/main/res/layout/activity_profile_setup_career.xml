@@ -12,10 +12,18 @@
         android:text="@string/profile_setup_career_title"
         android:textSize="30sp"/>
 
+    <Button
+        android:id="@+id/add_career_point_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="@string/add_career_point_button_title"
+        android:theme="@style/BeehiveButton"/>
+
     <ListView
         android:id="@+id/profile_career_list_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="350dp">
 
     </ListView>
 

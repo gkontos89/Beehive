@@ -13,20 +13,23 @@ import java.util.Vector;
  */
 public class ProfileSetupManager {
 
-    private static ProfileSetupManager instance;
-    private Vector<Activity> profileSetupTransitions;
+    private static ProfileSetupManager instance = null;
+    private Vector<Class> profileSetupTransitions;
     private ListIterator profileSetupTransitionIterator;
 
-    // TODO hold temporary profile setup data here then map to user model at the end
+    // TODO handle sending of profile data to backend
 
     private ProfileSetupManager() {
         profileSetupTransitions = new Vector<>();
         profileSetupTransitionIterator = profileSetupTransitions.listIterator();
 
-        // TODO fill out transitions
+        // TODO add the home screen activity as the final activity
+        profileSetupTransitions.add(ProfileSetupBasicsActivity.class);
+        profileSetupTransitions.add(ProfileSetupSummaryActivity.class);
+        profileSetupTransitions.add(ProfileSetupCareerActivity.class);
     }
 
-    public ProfileSetupManager getInstance() {
+    public static ProfileSetupManager getInstance() {
         if (instance == null) {
             instance = new ProfileSetupManager();
         }
@@ -34,17 +37,17 @@ public class ProfileSetupManager {
         return instance;
     }
 
-    public Activity getNextProfileSetupActivity() {
+    public Class getNextProfileSetupActivity() {
         if (profileSetupTransitionIterator.hasNext()) {
-            return (Activity) profileSetupTransitionIterator.next();
+            return profileSetupTransitionIterator.next().getClass();
         } else {
             return null;
         }
     }
 
-    public Activity getLastProfileSetupActivity() {
+    public Class getLastProfileSetupActivity() {
         if (profileSetupTransitionIterator.hasPrevious()) {
-            return (Activity) profileSetupTransitionIterator.previous();
+            return profileSetupTransitionIterator.previous().getClass();
         } else {
             return null;
         }

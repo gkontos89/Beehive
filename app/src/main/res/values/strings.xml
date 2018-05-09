@@ -31,6 +31,8 @@
     <string name="career_point_end_title">End Date</string>
     <string name="career_position_title">Position</string>
     <string name="career_position_summary_title">Summary</string>
+    <string name="add_career_point_button_title">Add Career Point</string>
+    <string name="add_career_position_button_title">Add Career Point Position</string>
 
 
 </resources>

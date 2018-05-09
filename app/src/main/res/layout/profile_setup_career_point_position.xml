@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp">
 
     <LinearLayout
@@ -15,25 +15,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/career_point_title"
-            android:labelFor="@+id/career_point_text"
+            android:text="@string/career_position_title"
+            android:labelFor="@+id/career_position_text"
             android:textSize="20sp"/>
 
         <EditText
-            android:id="@+id/career_point_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/career_point_location_title"
-            android:textSize="15sp"
-            android:labelFor="@+id/career_point_location_text"/>
-
-        <EditText
-            android:id="@+id/career_point_location_text"
+            android:id="@+id/career_position_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"/>
@@ -74,21 +61,19 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/add_career_point_button"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_summary_title"
+            android:labelFor="@+id/career_position_summary"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/career_position_summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/add_career_position_button_title"
-            android:theme="@style/BeehiveButton"/>
-
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </ListView>
-
+            android:inputType="text"/>
 
     </LinearLayout>
 
