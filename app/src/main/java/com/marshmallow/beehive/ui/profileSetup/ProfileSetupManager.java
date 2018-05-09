@@ -2,6 +2,8 @@ package com.marshmallow.beehive.ui.profileSetup;
 
 import android.app.Activity;
 
+import com.marshmallow.beehive.ui.home.HomeActivity;
+
 import java.util.ListIterator;
 import java.util.Vector;
 
@@ -11,7 +13,7 @@ import java.util.Vector;
  *
  * Created by George on 5/7/2018.
  */
-public class ProfileSetupManager {
+public class ProfileSetupManager extends ControlFlow{
 
     private static ProfileSetupManager instance = null;
     private Vector<Class> profileSetupTransitions;
@@ -23,10 +25,11 @@ public class ProfileSetupManager {
         profileSetupTransitions = new Vector<>();
         profileSetupTransitionIterator = profileSetupTransitions.listIterator();
 
-        // TODO add the home screen activity as the final activity
-        profileSetupTransitions.add(ProfileSetupBasicsActivity.class);
+        // Add transitions
+        profileSetupTransitions.add(ProfileSetupBasicsActivity);
         profileSetupTransitions.add(ProfileSetupSummaryActivity.class);
         profileSetupTransitions.add(ProfileSetupCareerActivity.class);
+        profileSetupTransitions.add(HomeActivity.class);
     }
 
     public static ProfileSetupManager getInstance() {
@@ -39,7 +42,7 @@ public class ProfileSetupManager {
 
     public Class getNextProfileSetupActivity() {
         if (profileSetupTransitionIterator.hasNext()) {
-            return profileSetupTransitionIterator.next().getClass();
+            return (Class) profileSetupTransitionIterator.next();
         } else {
             return null;
         }

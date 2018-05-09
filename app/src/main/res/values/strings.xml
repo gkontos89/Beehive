@@ -33,6 +33,7 @@
     <string name="career_position_summary_title">Summary</string>
     <string name="add_career_point_button_title">Add Career Point</string>
     <string name="add_career_position_button_title">Add Career Point Position</string>
+    <string name="submit_profile_data_title">Submit Profile Info</string>
 
 
 </resources>

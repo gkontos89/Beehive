@@ -42,10 +42,10 @@
             android:theme="@style/BeehiveButton"/>
 
         <Button
-            android:id="@+id/next_button"
+            android:id="@+id/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/profile_next_button_title"
+            android:text="@string/submit_profile_data_title"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="50dp"
             android:theme="@style/BeehiveButton"/>
