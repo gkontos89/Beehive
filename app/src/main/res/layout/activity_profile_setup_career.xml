@@ -20,12 +20,12 @@
         android:text="@string/add_career_point_button_title"
         android:theme="@style/BeehiveButton"/>
 
-    <ListView
-        android:id="@+id/profile_career_list_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/profile_career_rv"
         android:layout_width="match_parent"
         android:layout_height="350dp">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 
     <RelativeLayout

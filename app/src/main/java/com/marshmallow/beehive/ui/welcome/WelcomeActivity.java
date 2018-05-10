@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.marshmallow.beehive.R;
-import com.marshmallow.beehive.ui.profileSetup.ProfileSetupManager;
+import com.marshmallow.beehive.ui.profileSetup.ProfileSetupBasicsActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Launch profile set up activity chain
-                Intent intent = new Intent(getApplicationContext(), ProfileSetupManager.getInstance().getNextProfileSetupActivity());
+                Intent intent = new Intent(getApplicationContext(), ProfileSetupBasicsActivity.class);
                 startActivity(intent);
             }
         });

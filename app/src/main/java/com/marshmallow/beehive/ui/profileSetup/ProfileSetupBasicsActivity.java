@@ -44,7 +44,7 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
             public void onClick(View v) {
                 if (allFieldsComplete()) {
                     saveProfileData();
-                    Intent intent = new Intent(getApplicationContext(), ProfileSetupManager.getInstance().getNextProfileSetupActivity());
+                    Intent intent = new Intent(getApplicationContext(), ProfileSetupSummaryActivity.class);
                     startActivity(intent);
                 }
             }

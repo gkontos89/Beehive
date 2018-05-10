@@ -66,7 +66,7 @@ public class ProfileSetupSummaryActivity extends AppCompatActivity implements Pr
             public void onClick(View v) {
                 if (allFieldsComplete()) {
                     saveProfileData();
-                    Intent intent = new Intent(getApplicationContext(), ProfileSetupManager.getInstance().getNextProfileSetupActivity());
+                    Intent intent = new Intent(getApplicationContext(), ProfileSetupCareerActivity.class);
                     startActivity(intent);
                 }
             }

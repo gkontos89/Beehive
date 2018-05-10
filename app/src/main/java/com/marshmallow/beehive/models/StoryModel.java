@@ -15,7 +15,9 @@ public class StoryModel {
     private Vector<StoryQuestionModel> storyQuestionModels;
 
     public StoryModel() {
-
+        careerPointModels = new Vector<>();
+        pursuits = new Vector<>();
+        storyQuestionModels = new Vector<>();
     }
 
     /**

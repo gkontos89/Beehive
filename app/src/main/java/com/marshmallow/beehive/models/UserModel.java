@@ -12,6 +12,7 @@ public class UserModel {
     private String quickPitch;
 
     public UserModel() {
+        userStory = new StoryModel();
     }
 
     /**
