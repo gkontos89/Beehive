@@ -17,6 +17,8 @@ import com.marshmallow.beehive.models.UserModel;
 import com.marshmallow.beehive.ui.home.HomeActivity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public class ProfileSetupCareerActivity extends AppCompatActivity implements ProfileSetupInterface {
 
@@ -24,7 +26,7 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
     private Button addCareerPointButton;
     private RecyclerView careerPointRecylerView;
     private RecyclerView.LayoutManager careerPointLayoutManager;
-    private ArrayList<CareerPointModel> careerPointModelArrayList;
+    private List<CareerPointModel> careerPointModelList;
     private CareerPointAdapter careerPointAdapter;
 
     private Button backButton;
@@ -42,17 +44,18 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
         submitButton = findViewById(R.id.submit_button);
 
         // Set up recycler and view adapters
-        careerPointModelArrayList = new ArrayList<>();
+        careerPointModelList = new Vector<>();
+        careerPointModelList = ModelManager.getInstance().getUserModel().getUserStory().getCareerPointModels();
         careerPointLayoutManager = new LinearLayoutManager(this);
         careerPointRecylerView.setLayoutManager(careerPointLayoutManager);
-        careerPointAdapter = new CareerPointAdapter(careerPointModelArrayList);
+        careerPointAdapter = new CareerPointAdapter(this, careerPointModelList);
         careerPointRecylerView.setAdapter(careerPointAdapter);
 
         addCareerPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                careerPointModelArrayList.add(new CareerPointModel());
-                careerPointAdapter.notifyDataSetChanged();
+                Intent intent = new Intent(getApplicationContext(), ProfileSetupCareerPointActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -97,25 +100,29 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
     public void saveProfileData() {
         UserModel userModel = ModelManager.getInstance().getUserModel();
         userModel.getUserStory().getCareerPointModels().clear();
-        for (int i=0; i<careerPointLayoutManager.getItemCount(); i++){
-            View view = careerPointLayoutManager.findViewByPosition(i);
+        for (CareerPointAdapter.CareerPointHolder careerPointHolder : careerPointAdapter.getCareerPointHolders()) {
             CareerPointModel careerPointModel = new CareerPointModel();
-
-            // Grab view elements from the careerPoint view
-            EditText careerPointName = view.findViewById(R.id.career_point_text);
-            EditText location = view.findViewById(R.id.career_point_location_text);
-            EditText startDate = view.findViewById(R.id.start_date_text);
-            EditText endDate = view.findViewById(R.id.end_date_text);
-
-            // TODO get career point positions
-
-            // Map the view elements to the model and add to the user
-            careerPointModel.setName(careerPointName.getText().toString());
-            careerPointModel.setLocation(location.getText().toString());
-            careerPointModel.setStartDate(startDate.getText().toString());
-            careerPointModel.setEndDate(endDate.getText().toString());
-
+            careerPointModel.setName(careerPointHolder.getCareerPointNameString());
             userModel.getUserStory().getCareerPointModels().add(careerPointModel);
+
+//            View view = careerPointLayoutManager.findViewByPosition(i);
+//            CareerPointModel careerPointModel = new CareerPointModel();
+//
+//            // Grab view elements from the careerPoint view
+//            EditText careerPointName = view.findViewById(R.id.career_point_text);
+//            EditText location = view.findViewById(R.id.career_point_location_text);
+//            EditText startDate = view.findViewById(R.id.start_date_text);
+//            EditText endDate = view.findViewById(R.id.end_date_text);
+//
+//            // TODO get career point positions
+//
+//            // Map the view elements to the model and add to the user
+//            careerPointModel.setName(careerPointName.getText().toString());
+//            careerPointModel.setLocation(location.getText().toString());
+//            careerPointModel.setStartDate(startDate.getText().toString());
+//            careerPointModel.setEndDate(endDate.getText().toString());
+//
+//            userModel.getUserStory().getCareerPointModels().add(careerPointModel);
         }
 
     }

@@ -34,6 +34,9 @@
     <string name="add_career_point_button_title">Add Career Point</string>
     <string name="add_career_position_button_title">Add Career Point Position</string>
     <string name="submit_profile_data_title">Submit Profile Info</string>
+    <string name="remove_text">Remove</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="save_button_text">Save</string>
 
 
 </resources>

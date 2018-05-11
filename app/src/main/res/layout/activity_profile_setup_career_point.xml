@@ -90,6 +90,32 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/cancel_button_text"
+                android:layout_marginTop="8dp"
+                android:theme="@style/BeehiveButton"/>
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save_button_text"
+                android:layout_marginTop="8dp"
+                android:theme="@style/BeehiveButton"/>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

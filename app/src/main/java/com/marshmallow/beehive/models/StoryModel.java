@@ -1,5 +1,7 @@
 package com.marshmallow.beehive.models;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Vector;
  */
 public class StoryModel {
     private String summary;
-    private Vector<CareerPointModel> careerPointModels;
+    private List<CareerPointModel> careerPointModels;
     private Vector<String> pursuits;
     private Vector<StoryQuestionModel> storyQuestionModels;
 
@@ -25,7 +27,7 @@ public class StoryModel {
      */
     public String getSummary() { return summary; }
     public void setSummary(String summary) { this.summary = summary; }
-    public Vector<CareerPointModel> getCareerPointModels() { return careerPointModels; }
+    public List<CareerPointModel> getCareerPointModels() { return careerPointModels; }
     public Vector<String> getPursuits() { return pursuits; }
     public Vector<StoryQuestionModel> getStoryQuestionModels() { return storyQuestionModels; }
 }
