@@ -41,7 +41,7 @@ public class CareerPointAdapter extends RecyclerView.Adapter<CareerPointAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CareerPointHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final CareerPointHolder holder, final int position) {
         final CareerPointModel careerPointModel = careerPointModels.get(position);
         holder.getCareerPointName().setText(careerPointModel.getName());
         holder.getRemoveButton().setOnClickListener(new View.OnClickListener() {
@@ -58,7 +58,7 @@ public class CareerPointAdapter extends RecyclerView.Adapter<CareerPointAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context.getApplicationContext(), ProfileSetupCareerPointActivity.class);
-                intent.putExtra(ProfileSetupCareerPointActivity.getCareerPointIndexKeyString(), position);
+                intent.putExtra(ProfileSetupCareerPointActivity.getCareerPointIndexKeyString(), holder.getAdapterPosition());
                 context.startActivity(intent);
             }
         });
