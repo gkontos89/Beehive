@@ -65,9 +65,9 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
                 if (allFieldsComplete()) {
                     saveProfileData();
 
-                    // TODO submit data to backend
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
+                    // TODO submit data to backend and launch loading activity
+//                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                    startActivity(intent);
                 }
             }
         });
@@ -76,8 +76,6 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
             @Override
             public void onClick(View v) {
                 saveProfileData();
-
-                // TODO will this work?
                 finish();
             }
         });
@@ -91,40 +89,14 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
 
     @Override
     public void loadProfileData() {
-        UserModel userModel = ModelManager.getInstance().getUserModel();
-        careerPointModelArrayList.addAll(userModel.getUserStory().getCareerPointModels());
+        // simply notify the adapter of any change that occurred in the underlying dataset
         careerPointAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void saveProfileData() {
-        UserModel userModel = ModelManager.getInstance().getUserModel();
-        userModel.getUserStory().getCareerPointModels().clear();
-        for (CareerPointAdapter.CareerPointHolder careerPointHolder : careerPointAdapter.getCareerPointHolders()) {
-            CareerPointModel careerPointModel = new CareerPointModel();
-            careerPointModel.setName(careerPointHolder.getCareerPointNameString());
-            userModel.getUserStory().getCareerPointModels().add(careerPointModel);
-
-//            View view = careerPointLayoutManager.findViewByPosition(i);
-//            CareerPointModel careerPointModel = new CareerPointModel();
-//
-//            // Grab view elements from the careerPoint view
-//            EditText careerPointName = view.findViewById(R.id.career_point_text);
-//            EditText location = view.findViewById(R.id.career_point_location_text);
-//            EditText startDate = view.findViewById(R.id.start_date_text);
-//            EditText endDate = view.findViewById(R.id.end_date_text);
-//
-//            // TODO get career point positions
-//
-//            // Map the view elements to the model and add to the user
-//            careerPointModel.setName(careerPointName.getText().toString());
-//            careerPointModel.setLocation(location.getText().toString());
-//            careerPointModel.setStartDate(startDate.getText().toString());
-//            careerPointModel.setEndDate(endDate.getText().toString());
-//
-//            userModel.getUserStory().getCareerPointModels().add(careerPointModel);
-        }
-
+        // For now there is nothing to save.  This view just contains a list of career points
+        // that are already stored in the user model through the add buttons.
     }
 
     @Override
