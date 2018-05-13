@@ -3,6 +3,8 @@ package com.marshmallow.beehive.ui.profileSetup;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +12,11 @@ import android.widget.EditText;
 
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.models.CareerPointModel;
+import com.marshmallow.beehive.models.CareerPositionModel;
 import com.marshmallow.beehive.models.ModelManager;
+
+import java.util.List;
+import java.util.Vector;
 
 public class ProfileSetupCareerPointActivity extends AppCompatActivity implements ProfileSetupInterface {
 
@@ -22,6 +28,12 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
     private Button addCareerPositionButton;
     private Button saveCareerPointButton;
     private Button cancelButton;
+    private RecyclerView careerPointPositionRecyclerView;
+    private RecyclerView.LayoutManager careerPointPositionLayoutManager;
+
+    // Recycler items
+    private List<CareerPositionModel> careerPositionModelList;
+    private CareerPositionAdapter careerPositionAdapter;
 
     // Broadcast info
     private static final String careerPointIndexKeyString = "careerPointIndexKey";
@@ -29,6 +41,7 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
 
     // State info
     CareerPointModel loadedCareerPointModel = null;
+    int careerPointIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +54,26 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
         startDate = findViewById(R.id.start_date_text);
         endDate = findViewById(R.id.end_date_text);
         addCareerPositionButton = findViewById(R.id.add_career_position_button);
+        careerPointPositionRecyclerView = findViewById(R.id.career_positions_rv);
         saveCareerPointButton = findViewById(R.id.save_button);
         cancelButton = findViewById(R.id.cancel_button);
+
+        // Set up recycler and view adapters
+        careerPositionModelList = new Vector<>();
+        careerPointIndex = getIntent().getIntExtra(getCareerPointIndexKeyString(), -1);
+        careerPointPositionLayoutManager = new LinearLayoutManager(this);
+        careerPointPositionRecyclerView.setLayoutManager(careerPointPositionLayoutManager);
+        careerPositionAdapter = new CareerPositionAdapter(this, careerPointIndex, careerPositionModelList);
+        careerPointPositionRecyclerView.setAdapter(careerPositionAdapter);
+
+        addCareerPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ProfileSetupCareerPositionActivity.class);
+                intent.putExtra(ProfileSetupCareerPositionActivity.getCareerPointIndexKeyString(), careerPointIndex);
+                startActivity(intent);
+            }
+        });
 
         // On save button, create career point model and save to user
         saveCareerPointButton.setOnClickListener(new View.OnClickListener() {
@@ -67,9 +98,9 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
     protected void onStart() {
         super.onStart();
         Intent intent = getIntent();
-        if (intent.getIntExtra(getCareerPointIndexKeyString(), -1) != -1) {
-            int index = intent.getIntExtra(getCareerPointIndexKeyString(), -1);
-            loadedCareerPointModel = ModelManager.getInstance().getUserModel().getUserStory().getCareerPointModels().get(index);
+        if (careerPointIndex != -1) {
+            loadedCareerPointModel = ModelManager.getInstance().getUserModel().getUserStory().getCareerPointModels().get(careerPointIndex);
+            careerPositionModelList = loadedCareerPointModel.getCareerPositionModels();
         }
 
         loadProfileData();
@@ -82,14 +113,13 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
             careerPointLocation.setText(loadedCareerPointModel.getLocation());
             startDate.setText(loadedCareerPointModel.getStartDate());
             endDate.setText(loadedCareerPointModel.getEndDate());
-
-            // TODO get career positions
+            careerPositionAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void saveProfileData() {
-        CareerPointModel careerPointModel = new CareerPointModel();
+        CareerPointModel careerPointModel = ModelManager.getInstance().getTempCareerPointModel();
         careerPointModel.setName(careerPointTitle.getText().toString());
         careerPointModel.setLocation(careerPointLocation.getText().toString());
         careerPointModel.setStartDate(startDate.getText().toString());

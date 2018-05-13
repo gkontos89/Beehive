@@ -54,6 +54,7 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
         addCareerPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ModelManager.getInstance().generateCareerPointModel();
                 Intent intent = new Intent(getApplicationContext(), ProfileSetupCareerPointActivity.class);
                 startActivity(intent);
             }

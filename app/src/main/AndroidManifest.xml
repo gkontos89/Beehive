@@ -28,7 +28,8 @@
         </activity>
         <activity android:name=".ui.profileSetup.ProfileSetupSummaryActivity" />
         <activity android:name=".ui.profileSetup.ProfileSetupCareerActivity" />
-        <activity android:name=".ui.profileSetup.ProfileSetupCareerPointActivity"></activity>
+        <activity android:name=".ui.profileSetup.ProfileSetupCareerPointActivity" />
+        <activity android:name=".ui.profileSetup.ProfileSetupCareerPositionActivity"></activity>
     </application>
 
 </manifest>
