@@ -3,6 +3,8 @@ package com.marshmallow.beehive.ui.profileSetup;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,11 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.firebase.ui.auth.data.model.User;
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.models.ModelManager;
+import com.marshmallow.beehive.models.StoryModel;
 import com.marshmallow.beehive.models.UserModel;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public class ProfileSetupSummaryActivity extends AppCompatActivity implements ProfileSetupInterface {
 
@@ -22,16 +28,15 @@ public class ProfileSetupSummaryActivity extends AppCompatActivity implements Pr
     private EditText summaryText;
     private EditText pursuitTextEntry;
     private Button addPursuitButton;
-    private ListView pursuitsList;
+    private RecyclerView pursuitsRecyclerView;
+    private RecyclerView.LayoutManager pursuitsLayoutManager;
+    private List<String> pursuitsList;
+    private PursuitsAdapter pursuitsAdapter;
 
     // TODO story questions w/ recycler view
 
     private Button backButton;
     private Button nextButton;
-
-    private ArrayList<String> pursuits;
-    private ArrayAdapter<String> pursuitsAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +47,28 @@ public class ProfileSetupSummaryActivity extends AppCompatActivity implements Pr
         summaryText = findViewById(R.id.summary_text_entry);
         pursuitTextEntry = findViewById(R.id.pursuit_text_entry);
         addPursuitButton = findViewById(R.id.add_pursuit_button);
-        pursuitsList = findViewById(R.id.pursuits_list);
+        pursuitsRecyclerView = findViewById(R.id.pursuits_list);
         backButton = findViewById(R.id.back_button);
         nextButton = findViewById(R.id.next_button);
 
         // List and adapter to handle pursuits
-        pursuits = new ArrayList<>();
-        pursuitsAdapter = new ArrayAdapter<String>(this, 0, pursuits);
-        pursuitsList.setAdapter(pursuitsAdapter);
+        pursuitsList = new Vector<>();
+        pursuitsList = ModelManager.getInstance().getUserModel().getUserStory().getPursuits();
+        pursuitsLayoutManager = new LinearLayoutManager(this);
+        pursuitsRecyclerView.setLayoutManager(pursuitsLayoutManager);
+        pursuitsAdapter = new PursuitsAdapter(pursuitsList);
+        pursuitsRecyclerView.setAdapter(pursuitsAdapter);
+
 
         addPursuitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!pursuitTextEntry.getText().toString().isEmpty()) {
-                    pursuitsAdapter.add(pursuitTextEntry.getText().toString());
+                if (!TextUtils.isEmpty(pursuitTextEntry.getText().toString())) {
+                    pursuitsList.add(pursuitTextEntry.getText().toString());
+                    pursuitsAdapter.notifyDataSetChanged();
                     pursuitTextEntry.setText("");
+                } else {
+                    pursuitTextEntry.setError("Pursuit cannot be empty");
                 }
             }
         });
@@ -91,11 +103,8 @@ public class ProfileSetupSummaryActivity extends AppCompatActivity implements Pr
 
     @Override
     public void saveProfileData() {
-        String summaryTextString = summaryText.getText().toString();
-        ModelManager.getInstance().getUserModel().getUserStory().setSummary(summaryTextString);
-        for (int i=0; i<pursuitsAdapter.getCount(); i++) {
-            ModelManager.getInstance().getUserModel().getUserStory().getPursuits().add(pursuitsAdapter.getItem(i));
-        }
+        StoryModel storyModel = ModelManager.getInstance().getUserModel().getUserStory();
+        storyModel.setSummary(summaryText.getText().toString());
 
         // TODO get story questions
     }
@@ -113,10 +122,9 @@ public class ProfileSetupSummaryActivity extends AppCompatActivity implements Pr
 
     @Override
     public void loadProfileData() {
-        UserModel userModel = ModelManager.getInstance().getUserModel();
-        summaryText.setText(userModel.getUserStory().getSummary());
-        pursuits.addAll(userModel.getUserStory().getPursuits());
-
+        StoryModel storyModel = ModelManager.getInstance().getUserModel().getUserStory();
+        summaryText.setText(storyModel.getSummary());
+        pursuitsAdapter.notifyDataSetChanged();
         // TODO load story questions
     }
 }
