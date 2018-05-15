@@ -23,12 +23,10 @@ import java.util.Vector;
 public class CareerPositionAdapter extends RecyclerView.Adapter<CareerPositionAdapter.CareerPositionHolder> {
 
     private Context context;
-    private int careerPointModelReference;
     private List<CareerPositionModel> careerPositionModels;
 
-    public CareerPositionAdapter(Context context, int careerPointModelReference, List<CareerPositionModel> careerPositionModels) {
+    public CareerPositionAdapter(Context context, List<CareerPositionModel> careerPositionModels) {
         this.context = context;
-        this.careerPointModelReference = careerPointModelReference;
         this.careerPositionModels = new Vector<>();
         this.careerPositionModels = careerPositionModels;
     }
@@ -47,11 +45,7 @@ public class CareerPositionAdapter extends RecyclerView.Adapter<CareerPositionAd
         holder.getRemoveButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ModelManager.getInstance()
-                        .getUserModel()
-                        .getUserStory()
-                        .getCareerPointModels().get(careerPointModelReference)
-                        .getCareerPositionModels().remove(careerPositionModel);
+                ModelManager.getInstance().getActiveCareerPointModel().getCareerPositionModels().remove(careerPositionModel);
                 notifyDataSetChanged();
             }
         });
@@ -59,9 +53,8 @@ public class CareerPositionAdapter extends RecyclerView.Adapter<CareerPositionAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ModelManager.getInstance().setActiveCareerPointPositionModel(careerPositionModel);
                 Intent intent = new Intent(context.getApplicationContext(), ProfileSetupCareerPositionActivity.class);
-                intent.putExtra(ProfileSetupCareerPositionActivity.getCareerPointIndexKeyString(), careerPointModelReference);
-                intent.putExtra(ProfileSetupCareerPositionActivity.getCareerPositionIndexKeyString(), holder.getAdapterPosition());
                 context.startActivity(intent);
             }
         });

@@ -57,8 +57,8 @@ public class CareerPointAdapter extends RecyclerView.Adapter<CareerPointAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ModelManager.getInstance().setActiveCareerPointModel(careerPointModel);
                 Intent intent = new Intent(context.getApplicationContext(), ProfileSetupCareerPointActivity.class);
-                intent.putExtra(ProfileSetupCareerPointActivity.getCareerPointIndexKeyString(), holder.getAdapterPosition());
                 context.startActivity(intent);
             }
         });

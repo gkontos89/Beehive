@@ -25,18 +25,6 @@ public class ProfileSetupCareerPositionActivity extends AppCompatActivity implem
     private Button saveButton;
     private Button cancelButton;
 
-    // Broadcast info
-    private static final String careerPointIndexKeyString = "careerPointIndexKey";
-    public static final String getCareerPointIndexKeyString() { return careerPointIndexKeyString; }
-    private static final String careerPositionIndexKeyString = "careerPositionIndexKey";
-    public static final String getCareerPositionIndexKeyString() { return careerPositionIndexKeyString; }
-
-    // State info
-    CareerPositionModel loadedCareerPositionModel = null;
-    int careerPointIndex = -1;
-    int careerPositionIndex = -1;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,47 +59,27 @@ public class ProfileSetupCareerPositionActivity extends AppCompatActivity implem
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = getIntent();
-        careerPointIndex = intent.getIntExtra(getCareerPointIndexKeyString(), -1);
-        careerPositionIndex = intent.getIntExtra(getCareerPositionIndexKeyString(), -1);
-
-        if (careerPointIndex != -1 && careerPositionIndex != -1) {
-            loadedCareerPositionModel = ModelManager.getInstance()
-                    .getUserModel()
-                    .getUserStory()
-                    .getCareerPointModels().get(careerPointIndex)
-                    .getCareerPositionModels().get(careerPositionIndex);
-        }
-
         loadProfileData();
     }
 
     @Override
     public void loadProfileData() {
-        if (loadedCareerPositionModel != null) {
-            careerPositionTitle.setText(loadedCareerPositionModel.getPositionName());
-            startDate.setText(loadedCareerPositionModel.getStartDate());
-            endDate.setText(loadedCareerPositionModel.getEndDate());
-            summary.setText(loadedCareerPositionModel.getSummary());
-        }
+        CareerPositionModel activeCareerPositionModel = ModelManager.getInstance().getActiveCareerPointPositionModel();
+        careerPositionTitle.setText(activeCareerPositionModel.getPositionName());
+        startDate.setText(activeCareerPositionModel.getStartDate());
+        endDate.setText(activeCareerPositionModel.getEndDate());
+        summary.setText(activeCareerPositionModel.getSummary());
     }
 
     @Override
     public void saveProfileData() {
-        CareerPositionModel careerPositionModel = new CareerPositionModel();
-        careerPositionModel.setPositionName(careerPositionTitle.getText().toString());
-        careerPositionModel.setStartDate(startDate.getText().toString());
-        careerPositionModel.setEndDate(endDate.getText().toString());
-        careerPositionModel.setSummary(summary.getText().toString());
+        CareerPositionModel activeCareerPositionModel = ModelManager.getInstance().getActiveCareerPointPositionModel();
+        activeCareerPositionModel.setPositionName(careerPositionTitle.getText().toString());
+        activeCareerPositionModel.setStartDate(startDate.getText().toString());
+        activeCareerPositionModel.setEndDate(endDate.getText().toString());
+        activeCareerPositionModel.setSummary(summary.getText().toString());
 
-        if (loadedCareerPositionModel != null) {
-            loadedCareerPositionModel = careerPositionModel;
-        } else if (careerPointIndex != -1){
-            CareerPointModel careerPointModel = ModelManager.getInstance().getUserModel().getUserStory().getCareerPointModels().get(careerPointIndex);
-            careerPointModel.getCareerPositionModels().add(careerPositionModel);
-        }else {
-            ModelManager.getInstance().getTempCareerPointModel().getCareerPositionModels().add(careerPositionModel);
-        }
+        ModelManager.getInstance().saveActiveCareerPointPositionModel();
     }
 
     @Override

@@ -35,14 +35,6 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
     private List<CareerPositionModel> careerPositionModelList;
     private CareerPositionAdapter careerPositionAdapter;
 
-    // Broadcast info
-    private static final String careerPointIndexKeyString = "careerPointIndexKey";
-    public static final String getCareerPointIndexKeyString() { return careerPointIndexKeyString; }
-
-    // State info
-    CareerPointModel loadedCareerPointModel = null;
-    int careerPointIndex = -1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,17 +52,17 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
 
         // Set up recycler and view adapters
         careerPositionModelList = new Vector<>();
-        careerPointIndex = getIntent().getIntExtra(getCareerPointIndexKeyString(), -1);
+        careerPositionModelList = ModelManager.getInstance().getActiveCareerPointModel().getCareerPositionModels();
         careerPointPositionLayoutManager = new LinearLayoutManager(this);
         careerPointPositionRecyclerView.setLayoutManager(careerPointPositionLayoutManager);
-        careerPositionAdapter = new CareerPositionAdapter(this, careerPointIndex, careerPositionModelList);
+        careerPositionAdapter = new CareerPositionAdapter(this, careerPositionModelList);
         careerPointPositionRecyclerView.setAdapter(careerPositionAdapter);
 
         addCareerPositionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ModelManager.getInstance().generateNewCareerPointPositionModel();
                 Intent intent = new Intent(getApplicationContext(), ProfileSetupCareerPositionActivity.class);
-                intent.putExtra(ProfileSetupCareerPositionActivity.getCareerPointIndexKeyString(), careerPointIndex);
                 startActivity(intent);
             }
         });
@@ -97,41 +89,28 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = getIntent();
-        if (careerPointIndex != -1) {
-            loadedCareerPointModel = ModelManager.getInstance().getUserModel().getUserStory().getCareerPointModels().get(careerPointIndex);
-            careerPositionModelList = loadedCareerPointModel.getCareerPositionModels();
-        }
-
         loadProfileData();
     }
 
     @Override
     public void loadProfileData() {
-        if (loadedCareerPointModel != null) {
-            careerPointTitle.setText(loadedCareerPointModel.getName());
-            careerPointLocation.setText(loadedCareerPointModel.getLocation());
-            startDate.setText(loadedCareerPointModel.getStartDate());
-            endDate.setText(loadedCareerPointModel.getEndDate());
-            careerPositionAdapter.notifyDataSetChanged();
-        }
+        CareerPointModel activeCareerPointModel = ModelManager.getInstance().getActiveCareerPointModel();
+        careerPointTitle.setText(activeCareerPointModel.getName());
+        careerPointLocation.setText(activeCareerPointModel.getLocation());
+        startDate.setText(activeCareerPointModel.getStartDate());
+        endDate.setText(activeCareerPointModel.getEndDate());
+        careerPositionAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void saveProfileData() {
-        CareerPointModel careerPointModel = ModelManager.getInstance().getTempCareerPointModel();
-        careerPointModel.setName(careerPointTitle.getText().toString());
-        careerPointModel.setLocation(careerPointLocation.getText().toString());
-        careerPointModel.setStartDate(startDate.getText().toString());
-        careerPointModel.setEndDate(endDate.getText().toString());
+        CareerPointModel activeCareerPointModel = ModelManager.getInstance().getActiveCareerPointModel();
+        activeCareerPointModel.setName(careerPointTitle.getText().toString());
+        activeCareerPointModel.setLocation(careerPointLocation.getText().toString());
+        activeCareerPointModel.setStartDate(startDate.getText().toString());
+        activeCareerPointModel.setEndDate(endDate.getText().toString());
 
-        // TODO career positions
-
-        if (loadedCareerPointModel != null) {
-            loadedCareerPointModel = careerPointModel;
-        } else {
-            ModelManager.getInstance().getUserModel().getUserStory().getCareerPointModels().add(careerPointModel);
-        }
+        ModelManager.getInstance().saveActiveCareerPointModel();
     }
 
     @Override
