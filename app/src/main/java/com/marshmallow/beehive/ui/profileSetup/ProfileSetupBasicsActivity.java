@@ -1,6 +1,9 @@
 package com.marshmallow.beehive.ui.profileSetup;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,9 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.models.ModelManager;
+
+import java.io.IOException;
 
 public class ProfileSetupBasicsActivity extends AppCompatActivity implements ProfileSetupInterface {
 
@@ -19,6 +25,8 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
     EditText profileQuickPitchText;
     ImageButton profileImageButton;
     Button nextButton;
+
+    private int PICK_IMAGE_REQUEST = 1;
 
 
     @Override
@@ -35,7 +43,10 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
         profileImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO hande new picture selection
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
 
@@ -49,6 +60,25 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                profileImageButton.setImageBitmap(bitmap);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+//                ImageView imageView = (ImageView) findViewById(R.id.imageView);
+//                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
