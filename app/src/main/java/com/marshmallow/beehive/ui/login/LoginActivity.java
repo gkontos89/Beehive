@@ -99,6 +99,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         }
+
+        BeehiveBackend.getInstance().createUserWithEmailAndPassword(getApplicationContext(),
+                this,
+                emailTextEntry.getText().toString(),
+                passwordTextEntry.getText().toString());
     }
 
     @Override
@@ -160,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void signInSucceeded() {
         hideProgressBar();
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
 
