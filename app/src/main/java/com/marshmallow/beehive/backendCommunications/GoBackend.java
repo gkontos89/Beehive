@@ -8,10 +8,12 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -45,34 +47,41 @@ public class GoBackend implements BeehiveBackendInterface {
 
     }
 
-    class BTask extends AsyncTask<Integer, Void, Void> {
-        protected Void doInBackground(Integer... params) {
+    class BTask extends AsyncTask<Void, Void, Void> {
+//        private Context context;
+//
+//        public BTask(Context context) {
+//            this.context = context;
+//        }
+
+        protected Void doInBackground(Void... params) {
             try {
                 // Request for data and format the response to string
                 String formattedResponse = null;
                 URL url = new URL("http://192.168.1.17:8080/api/account");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setDoOutput(true);
-                urlConnection.setDoInput(true);
-//                urlConnection.setRequestProperty("Content-Type", "application/json");
-//                urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestMethod("POST");
 
                 JSONObject creds = new JSONObject();
-                creds.put("email", "gk89@gmail.com");
+                creds.put("email", "gk189@gmail.com");
                 creds.put("password", "foobar");
 
-//                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream());
-//                outputStreamWriter.write(creds.toString());
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream());
+                outputStreamWriter.write(creds.toString());
+                outputStreamWriter.flush();
 
-                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-                wr.writeBytes(creds.toString());
-                wr.flush();
-                wr.close();
+                // TODO close connection
+
+                //OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+
+
+//                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+//                wr.writeBytes(creds.toString());
+//                wr.flush();
+//                wr.close();
 
                 urlConnection.setConnectTimeout(5000);
-
-
 
                 int code = urlConnection.getResponseCode();
                 String error = urlConnection.getResponseMessage();
