@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.marshmallow.beehive.backendCommunications.backends.BeehiveBackend;
 import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
+import com.marshmallow.beehive.models.ModelManager;
 
 import org.json.JSONObject;
 
@@ -48,9 +49,7 @@ public class CreateUserWebService extends IntentService {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream());
             outputStreamWriter.write(credentials.toString());
             outputStreamWriter.flush();
-
-            // TODO close connection
-
+            outputStreamWriter.close();
 
             Integer code = urlConnection.getResponseCode();
             String error = urlConnection.getResponseMessage();
@@ -64,11 +63,14 @@ public class CreateUserWebService extends IntentService {
                 }
 
                 String formattedResponse = stringBuilder.toString();
-
-                // Form the JSON response and validate that it contains resourceId and sessionId fields
                 JSONObject jsonResponse = new JSONObject(formattedResponse);
                 if (jsonResponse.has("resourceId") && jsonResponse.has("sessionId")) {
-                    BeehiveBackend.getInstance().setAccountIds(jsonResponse.getString("resourceId"), jsonResponse.getString("sessionId"));
+                    // Store the sessionId for this connection
+                    BeehiveBackend.getInstance().setSessionId(jsonResponse.getString("sessionId"));
+
+                    // Store the resourceId for the account that just got created
+                    ModelManager.getInstance().setAccountId(jsonResponse.getString("resourceId"));
+
                     CreateUserStatusBroadcast createUserStatusBroadcast = new CreateUserStatusBroadcast(null, null);
                     Intent createStatusIntent = createUserStatusBroadcast.getSuccessfulBroadcast();
                     sendBroadcast(createStatusIntent);
@@ -82,6 +84,8 @@ public class CreateUserWebService extends IntentService {
                 Intent createStatusIntent = createUserStatusBroadcast.getFailureBroadcast();
                 sendBroadcast(createStatusIntent);
             }
+
+            urlConnection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
             // TODO handle this through the GUI for 'production'

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.marshmallow.beehive.R;
+import com.marshmallow.beehive.backendCommunications.backends.BeehiveBackend;
 import com.marshmallow.beehive.models.CareerPointModel;
 import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.models.UserModel;
@@ -65,10 +66,7 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
             public void onClick(View v) {
                 if (allFieldsComplete()) {
                     saveProfileData();
-
-                    // TODO submit data to backend and launch loading activity
-//                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-//                    startActivity(intent);
+                    BeehiveBackend.getInstance().submitUserProfileUpdates(getApplicationContext());
                 }
             }
         });

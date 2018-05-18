@@ -33,6 +33,7 @@
         <activity android:name=".ui.profileSetup.ProfileSetupCareerPointActivity" />
         <activity android:name=".ui.profileSetup.ProfileSetupCareerPositionActivity"/>
         <service android:name=".backendCommunications.webServices.CreateUserWebService"/>
+        <service android:name=".backendCommunications.webServices.UpdateProfileWebService"/>
     </application>
 
 </manifest>

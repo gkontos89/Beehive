@@ -6,6 +6,7 @@ package com.marshmallow.beehive.models;
  * Created by George on 4/8/2018.
  */
 public class UserModel {
+    private String accountId;
     private String userName;
     private int profilePicture;
     private StoryModel userStory;
@@ -18,6 +19,8 @@ public class UserModel {
     /**
      * Getters and setters
      */
+    public String getAccountId() { return accountId; }
+    public void setAccountId(String accountId) { this.accountId = accountId; }
     public String getUserName() { return userName; }
     public void setUserName(String userName) { this.userName = userName; }
     public int getProfilePicture() { return profilePicture; }

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public class ModelManager {
     private static ModelManager instance = null;
     private UserModel userModel;
+    private String accountId;
     private CareerPointModel activeCareerPointModel = null;
     private CareerPositionModel activeCareerPointPositionModel = null;
 
@@ -21,14 +22,13 @@ public class ModelManager {
         if (instance == null) {
             instance = new ModelManager();
         }
+
         return instance;
     }
 
-    /**
-     * This method will simply return the model in the controller
-     */
-     public UserModel getUserModel() { return userModel; }
-
+    public UserModel getUserModel() { return userModel; }
+    public String getAccountId() { return accountId; }
+    public void setAccountId(String accountId) { this.accountId = accountId; }
 
     /**
      * The following methods will deal with CareerPoint and CareerPosition model handling for user

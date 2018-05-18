@@ -16,7 +16,7 @@ import java.util.Vector;
  *
  * Created by George on 4/8/2018.
  */
-public class CareerPointModel implements BeehiveModel{
+public class CareerPointModel {
     private String name;
     private String location;
     private String startDate;

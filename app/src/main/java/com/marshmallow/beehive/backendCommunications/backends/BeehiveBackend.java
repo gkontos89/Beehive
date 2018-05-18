@@ -49,15 +49,15 @@ public class BeehiveBackend implements BeehiveBackendInterface {
     }
 
     @Override
-    public void setAccountIds(String resourceId, String sessionId) {
-        backendHandle.setAccountIds(resourceId, sessionId);
+    public void setSessionId(String sessionId) {
+        backendHandle.setSessionId(sessionId);
     }
-
-    @Override
-    public String getResourceId() { return backendHandle.getResourceId(); }
 
     @Override
     public String getSessionId() { return backendHandle.getSessionId(); }
 
-
+    @Override
+    public void submitUserProfileUpdates(Context context) {
+        backendHandle.submitUserProfileUpdates(context);
+    }
 }

@@ -37,16 +37,15 @@ public interface BeehiveBackendInterface {
     /**
      * Sets resourceId and sessionId
      */
-    void setAccountIds(String resourceId, String sessionId);
-
-    /**
-     * @return resource id
-     */
-    String getResourceId();
+    void setSessionId(String sessionId);
 
     /**
      * @return session id
      */
     String getSessionId();
 
+    /**
+     * Submits user profile updates
+     */
+    void submitUserProfileUpdates(Context context);
 }

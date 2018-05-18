@@ -78,13 +78,15 @@ public class FirebaseBackend implements BeehiveBackendInterface {
     }
 
     @Override
-    public void setAccountIds(String resourceId, String sessionId) {
+    public void setSessionId(String sessionId) {
         // Stubbed from interface
     }
 
     @Override
-    public String getResourceId() { return null; }
+    public String getSessionId() { return null; }
 
     @Override
-    public String getSessionId() { return null; }
+    public void submitUserProfileUpdates(Context context) {
+
+    }
 }
