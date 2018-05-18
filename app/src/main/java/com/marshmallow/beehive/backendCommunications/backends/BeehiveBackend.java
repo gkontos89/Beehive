@@ -1,9 +1,7 @@
-package com.marshmallow.beehive.backendCommunications;
+package com.marshmallow.beehive.backendCommunications.backends;
 
 import android.app.Activity;
 import android.content.Context;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * BeehiveBackend is the front facing API's that are used throughout the application.
@@ -14,12 +12,12 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class BeehiveBackend implements BeehiveBackendInterface {
     private static BeehiveBackend instance = null;
-    private FirebaseBackend backendHandle;
-//    private GoBackend backendHandle;
+//    private FirebaseBackend backendHandle;
+    private GoBackend backendHandle;
 
     private BeehiveBackend() {
-        backendHandle = new FirebaseBackend();
-//        backendHandle = new GoBackend();
+//        backendHandle = new FirebaseBackend();
+        backendHandle = new GoBackend();
     }
 
     public static BeehiveBackend getInstance() {
@@ -49,4 +47,17 @@ public class BeehiveBackend implements BeehiveBackendInterface {
     public void signOutUser() {
         backendHandle.signOutUser();
     }
+
+    @Override
+    public void setAccountIds(String resourceId, String sessionId) {
+        backendHandle.setAccountIds(resourceId, sessionId);
+    }
+
+    @Override
+    public String getResourceId() { return backendHandle.getResourceId(); }
+
+    @Override
+    public String getSessionId() { return backendHandle.getSessionId(); }
+
+
 }

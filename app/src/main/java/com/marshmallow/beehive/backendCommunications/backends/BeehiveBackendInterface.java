@@ -1,7 +1,9 @@
-package com.marshmallow.beehive.backendCommunications;
+package com.marshmallow.beehive.backendCommunications.backends;
 
 import android.app.Activity;
 import android.content.Context;
+
+import org.json.JSONObject;
 
 /**
  * This interface establishes the contract for all backend communications for Beehive so that
@@ -31,4 +33,20 @@ public interface BeehiveBackendInterface {
      * Signs out the current user from the back end services
      */
     void signOutUser();
+
+    /**
+     * Sets resourceId and sessionId
+     */
+    void setAccountIds(String resourceId, String sessionId);
+
+    /**
+     * @return resource id
+     */
+    String getResourceId();
+
+    /**
+     * @return session id
+     */
+    String getSessionId();
+
 }

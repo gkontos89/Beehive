@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.marshmallow.beehive.R;
-import com.marshmallow.beehive.backendCommunications.BeehiveBackend;
+import com.marshmallow.beehive.backendCommunications.backends.BeehiveBackend;
 
 public class HomeActivity extends AppCompatActivity {
 

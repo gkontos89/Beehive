@@ -1,11 +1,9 @@
-package com.marshmallow.beehive.backendCommunications;
+package com.marshmallow.beehive.backendCommunications.backends;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -13,7 +11,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
-import com.marshmallow.beehive.ui.login.LoginActivity;
+import com.marshmallow.beehive.backendCommunications.broadcasts.SignInStatusBroadcast;
 
 /**
  * This class implements Firebase backend communications
@@ -40,19 +38,13 @@ public class FirebaseBackend implements BeehiveBackendInterface {
                 .addOnCompleteListener(activity, new OnCompleteListener< AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-//                        Intent intent = new Intent();
-//                        intent.setAction(BackendBroadcasting.getCreateAccountStatusAction());
                         if (task.isSuccessful()) {
                             CreateUserStatusBroadcast createUserStatusBroadcast = new CreateUserStatusBroadcast(null, null);
                             Intent intent = createUserStatusBroadcast.getSuccessfulBroadcast();
-//                            BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL;
-//                            status.attachTo(intent);
                             context.sendBroadcast(intent);
                         } else {
-                            CreateUserStatusBroadcast createUserStatusBroadcast = new CreateUserStatusBroadcast(null, null);
+                            CreateUserStatusBroadcast createUserStatusBroadcast = new CreateUserStatusBroadcast(task.getException().getMessage(), null);
                             Intent intent = createUserStatusBroadcast.getFailureBroadcast();
-//                            status.attachTo(intent);
-//                            intent.putExtra(BackendBroadcasting.getFailureInfoExtra(), task.getException().getMessage());
                             context.sendBroadcast(intent);
                         }
 
@@ -67,18 +59,15 @@ public class FirebaseBackend implements BeehiveBackendInterface {
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Intent intent = new Intent();
-                        intent.setAction(BackendBroadcasting.getSignInStatusAction());
                         if (task.isSuccessful()) {
-                            BackendBroadcasting.Status status = BackendBroadcasting.Status.SIGN_IN_SUCCESSFUL;
-                            status.attachTo(intent);
+                            SignInStatusBroadcast signInStatusBroadcast = new SignInStatusBroadcast(null, null);
+                            Intent intent = signInStatusBroadcast.getSuccessfulBroadcast();
+                            context.sendBroadcast(intent);
                         } else {
-                            BackendBroadcasting.Status status = BackendBroadcasting.Status.SIGN_IN_FAILED;
-                            status.attachTo(intent);
-                            intent.putExtra(BackendBroadcasting.getFailureInfoExtra(), task.getException().getMessage());
+                            SignInStatusBroadcast signInStatusBroadcast = new SignInStatusBroadcast(task.getException().getMessage(), null);
+                            Intent intent = signInStatusBroadcast.getFailureBroadcast();
+                            context.sendBroadcast(intent);
                         }
-
-                        context.sendBroadcast(intent);
                     }
                 });
     }
@@ -87,4 +76,15 @@ public class FirebaseBackend implements BeehiveBackendInterface {
     public void signOutUser() {
         firebaseAuth.signOut();
     }
+
+    @Override
+    public void setAccountIds(String resourceId, String sessionId) {
+        // Stubbed from interface
+    }
+
+    @Override
+    public String getResourceId() { return null; }
+
+    @Override
+    public String getSessionId() { return null; }
 }
