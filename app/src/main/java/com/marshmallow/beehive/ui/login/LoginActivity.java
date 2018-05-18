@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.backendCommunications.BackendBroadcasting;
 import com.marshmallow.beehive.backendCommunications.BeehiveBackend;
+import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
 import com.marshmallow.beehive.ui.home.HomeActivity;
 import com.marshmallow.beehive.ui.welcome.WelcomeActivity;
 
@@ -49,19 +50,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Set up broadcastReceiver and its filter
         intentFilter = new IntentFilter();
-        intentFilter.addAction(BackendBroadcasting.getCreateAccountStatusAction());
-        intentFilter.addAction(BackendBroadcasting.getSignInStatusAction());
+//        intentFilter.addAction(BackendBroadcasting.getCreateAccountStatusAction());
+//        intentFilter.addAction(BackendBroadcasting.getSignInStatusAction());
+        intentFilter.addAction(CreateUserStatusBroadcast.action);
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // Handle back end status pertaining to the login screen
-                if (intent.getAction().equals(BackendBroadcasting.getCreateAccountStatusAction())) {
-                    BackendBroadcasting.Status status = BackendBroadcasting.Status.detachFrom(intent);
-                    if (status == BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL) {
+//                if (intent.getAction().equals(BackendBroadcasting.getCreateAccountStatusAction())) {
+                if (intent.getAction().equals(CreateUserStatusBroadcast.action)) {
+                    //BackendBroadcasting.Status status = BackendBroadcasting.Status.detachFrom(intent);
+                    //if (status == BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL) {
+                    if (intent.getStringExtra(CreateUserStatusBroadcast.statusKey).equals(CreateUserStatusBroadcast.CREATE_ACCOUNT_SUCCESSFUL)) {
                         accountCreationSuccess();
-                    } else if (status == BackendBroadcasting.Status.CREATE_ACCOUNT_FAILED) {
-                        accountCreationFailed(intent.getStringExtra(BackendBroadcasting.getFailureInfoExtra()));
+                    } else if (intent.getStringExtra(CreateUserStatusBroadcast.statusKey).equals(CreateUserStatusBroadcast.CREATE_ACCOUNT_FAILED)) {
+                        accountCreationFailed(intent.getStringExtra(CreateUserStatusBroadcast.statusMessageKey));
                     } else {
                         // TODO throw custom error
                     }
@@ -100,10 +104,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
         }
 
-        BeehiveBackend.getInstance().createUserWithEmailAndPassword(getApplicationContext(),
-                this,
-                emailTextEntry.getText().toString(),
-                passwordTextEntry.getText().toString());
+//        BeehiveBackend.getInstance().createUserWithEmailAndPassword(getApplicationContext(),
+//                this,
+//                emailTextEntry.getText().toString(),
+//                passwordTextEntry.getText().toString());
     }
 
     @Override

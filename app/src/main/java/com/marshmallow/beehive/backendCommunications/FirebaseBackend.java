@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
+import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
 import com.marshmallow.beehive.ui.login.LoginActivity;
 
 /**
@@ -39,18 +40,23 @@ public class FirebaseBackend implements BeehiveBackendInterface {
                 .addOnCompleteListener(activity, new OnCompleteListener< AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Intent intent = new Intent();
-                        intent.setAction(BackendBroadcasting.getCreateAccountStatusAction());
+//                        Intent intent = new Intent();
+//                        intent.setAction(BackendBroadcasting.getCreateAccountStatusAction());
                         if (task.isSuccessful()) {
-                            BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL;
-                            status.attachTo(intent);
+                            CreateUserStatusBroadcast createUserStatusBroadcast = new CreateUserStatusBroadcast(null, null);
+                            Intent intent = createUserStatusBroadcast.getSuccessfulBroadcast();
+//                            BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_SUCCESSFUL;
+//                            status.attachTo(intent);
+                            context.sendBroadcast(intent);
                         } else {
-                            BackendBroadcasting.Status status = BackendBroadcasting.Status.CREATE_ACCOUNT_FAILED;
-                            status.attachTo(intent);
-                            intent.putExtra(BackendBroadcasting.getFailureInfoExtra(), task.getException().getMessage());
+                            CreateUserStatusBroadcast createUserStatusBroadcast = new CreateUserStatusBroadcast(null, null);
+                            Intent intent = createUserStatusBroadcast.getFailureBroadcast();
+//                            status.attachTo(intent);
+//                            intent.putExtra(BackendBroadcasting.getFailureInfoExtra(), task.getException().getMessage());
+                            context.sendBroadcast(intent);
                         }
 
-                        context.sendBroadcast(intent);
+
                     }
                 });
     }

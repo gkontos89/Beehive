@@ -14,12 +14,12 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class BeehiveBackend implements BeehiveBackendInterface {
     private static BeehiveBackend instance = null;
-    //private FirebaseBackend backendHandle;
-    private GoBackend backendHandle;
+    private FirebaseBackend backendHandle;
+//    private GoBackend backendHandle;
 
     private BeehiveBackend() {
-        //backendHandle = new FirebaseBackend();
-        backendHandle = new GoBackend();
+        backendHandle = new FirebaseBackend();
+//        backendHandle = new GoBackend();
     }
 
     public static BeehiveBackend getInstance() {
