@@ -61,6 +61,16 @@ public class ProfileSetupCareerPointActivity extends AppCompatActivity implement
         addCareerPositionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Save UI fields data into activeCareerPoint before leaving screen in case this is a new
+                // career point
+                if (!ModelManager.getInstance().userStoryContainsActiveCareerPointModel()) {
+                    CareerPointModel activeCareerPointModel = ModelManager.getInstance().getActiveCareerPointModel();
+                    activeCareerPointModel.setName(careerPointTitle.getText().toString());
+                    activeCareerPointModel.setLocation(careerPointLocation.getText().toString());
+                    activeCareerPointModel.setStartDate(startDate.getText().toString());
+                    activeCareerPointModel.setEndDate(endDate.getText().toString());
+                }
+
                 ModelManager.getInstance().generateNewCareerPointPositionModel();
                 Intent intent = new Intent(getApplicationContext(), ProfileSetupCareerPositionActivity.class);
                 startActivity(intent);

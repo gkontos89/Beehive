@@ -30,17 +30,13 @@ public class ModelManager {
     public String getAccountId() { return accountId; }
     public void setAccountId(String accountId) { this.accountId = accountId; }
 
-    /**
-     * The following methods will deal with CareerPoint and CareerPosition model handling for user
-     * interaction and updates
-     */
+    // The following methods will deal with CareerPoint and CareerPosition model handling for user interaction and updates
 
     /**
      * This method will generate a new career point model and set it as the active one.
      */
-    public CareerPointModel generateNewCareerPointModel() {
+    public void generateNewCareerPointModel() {
         activeCareerPointModel = new CareerPointModel();
-        return activeCareerPointModel;
     }
 
     /**
@@ -76,17 +72,23 @@ public class ModelManager {
     }
 
     /**
-     * This method will generate a new position model
-     * @return careerpositionmodel
+     * Checks that the activeCareerPointModel is contained in the user story of the main user.
+     * Handy for profile updates and screen switching to know when to save data
      */
-    public CareerPositionModel generateNewCareerPointPositionModel() {
+    public Boolean userStoryContainsActiveCareerPointModel() {
+        return getUserModel().getUserStory().getCareerPointModels().contains(activeCareerPointModel);
+    }
+
+    /**
+     * This method will generate a new position model
+     */
+    public void generateNewCareerPointPositionModel() {
         activeCareerPointPositionModel = new CareerPositionModel();
-        return activeCareerPointPositionModel;
     }
 
     /**
      * sets the active careerpoint position model
-     * @param careerPointPositionModel
+     * @param careerPointPositionModel - position model that will be active
      */
     public void setActiveCareerPointPositionModel(CareerPositionModel careerPointPositionModel) {
         activeCareerPointPositionModel = careerPointPositionModel;
@@ -94,7 +96,7 @@ public class ModelManager {
 
     /**
      * simply return the active position model being updated
-     * @return
+     * @return the active career point position model being operated on
      */
     public CareerPositionModel getActiveCareerPointPositionModel() {
         return activeCareerPointPositionModel;
