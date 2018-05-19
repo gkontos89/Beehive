@@ -96,7 +96,7 @@ public class ModelManager {
 
     /**
      * simply return the active position model being updated
-     * @return the active career point position model being operated on
+     * @return the active career poin
      */
     public CareerPositionModel getActiveCareerPointPositionModel() {
         return activeCareerPointPositionModel;
@@ -106,7 +106,10 @@ public class ModelManager {
      * removes the active position model
      */
     public void removeActiveCareerPositionModel() {
-        activeCareerPointModel.getCareerPositionModels().remove(activeCareerPointPositionModel);
+        if (activeCareerPointModel != null) {
+            activeCareerPointModel.getCareerPositionModels().remove(activeCareerPointPositionModel);
+        }
+
         activeCareerPointPositionModel = null;
     }
 
