@@ -88,8 +88,6 @@ public class ProfileSetupSummaryActivity extends AppCompatActivity implements Pr
             @Override
             public void onClick(View v) {
                 saveProfileData();
-
-                // TODO will this work?
                 finish();
             }
         });
