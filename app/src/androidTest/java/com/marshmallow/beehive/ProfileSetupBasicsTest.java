@@ -29,21 +29,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class ProfileSetupBasicsTest {
     @Rule
-    public ActivityTestRule<ProfileSetupBasicsActivity> loginActivityActivityTestRule = new ActivityTestRule<>(ProfileSetupBasicsActivity.class);
+    public ActivityTestRule<ProfileSetupBasicsActivity> profileSetupBasicsActivityActivityTestRule = new ActivityTestRule<>(ProfileSetupBasicsActivity.class);
 
     // TODO handle pictures
 
     @Test
     public void testFillInBasicsInfo() {
-        onView(withId(R.id.profile_name_text)).perform(typeText("George Kontos"), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.profile_quick_pitch_text)).perform(typeText("Big dreamer"), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.next_button)).perform(click());
-        assertEquals(ModelManager.getInstance().getUserModel().getUserName(), "George Kontos");
-        assertEquals(ModelManager.getInstance().getUserModel().getQuickPitch(), "Big dreamer");
-    }
-
-    @Test
-    public void testBasicInfoWithEmptyFields() {
         onView(withId(R.id.profile_name_text)).perform(closeSoftKeyboard());
         onView(withId(R.id.next_button)).perform(click());
         onView(withId(R.id.profile_name_text)).check(matches(hasErrorText("Profile name cannot be empty.")));

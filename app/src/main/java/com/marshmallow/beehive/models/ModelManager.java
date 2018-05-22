@@ -16,6 +16,8 @@ public class ModelManager {
 
     private ModelManager() {
         userModel = new UserModel();
+        generateNewCareerPointModel();
+        generateNewCareerPointPositionModel();
     }
 
     public static ModelManager getInstance() {
