@@ -59,11 +59,9 @@ public class ProfileSetupSummaryTest {
         assertEquals(ModelManager.getInstance().getUserModel().getUserStory().getPursuits().size(), 3);
         onView(withRecyclerView(R.id.pursuits_list).atPosition(0)).check(matches(hasDescendant(withText("Hiking"))));
         onView(withRecyclerView(R.id.pursuits_list).atPosition(1)).check(matches(hasDescendant(withText("Boating"))));
-        onView(withRecyclerView(R.id.pursuits_list).atPosition(3)).check(matches(hasDescendant(withText("Parasailing"))));
 
         // Validate empty pursuits
         onView(withId(R.id.summary_text_entry)).perform(ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.next_button)).perform(click());
         onView(withId(R.id.add_pursuit_button)).perform(click());
         onView(withId(R.id.pursuit_text_entry)).check(matches(hasErrorText("Pursuit cannot be empty")));
 
@@ -98,13 +96,6 @@ public class ProfileSetupSummaryTest {
 
         // Move back and validate data persisted
         onView(withId(R.id.back_button)).perform(click());
-        onView(withId(R.id.summary_text_entry)).check(matches(withText("Looking for adventure")));
-        onView(withRecyclerView(R.id.pursuits_list).atPosition(0)).check(matches(hasDescendant(withText("Boating"))));
-        onView(withRecyclerView(R.id.pursuits_list).atPosition(1)).check(matches(hasDescendant(withText("Parasailing"))));
-
-        // Move back, then forward again to validate data persisted
-        onView(withId(R.id.back_button)).perform(click());
-        onView(withId(R.id.next_button)).perform(click());
         onView(withId(R.id.summary_text_entry)).check(matches(withText("Looking for adventure")));
         onView(withRecyclerView(R.id.pursuits_list).atPosition(0)).check(matches(hasDescendant(withText("Boating"))));
         onView(withRecyclerView(R.id.pursuits_list).atPosition(1)).check(matches(hasDescendant(withText("Parasailing"))));
