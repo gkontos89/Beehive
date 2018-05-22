@@ -25,9 +25,25 @@ public class CareerPositionCreator {
     }
 
     public void fillView() {
+        fillPositionText();
+        fillStartDate();
+        fillEndDate();
+        fillSummary();
+    }
+
+    public void fillPositionText() {
         onView(withId(R.id.career_position_text)).perform(typeText(title), ViewActions.closeSoftKeyboard());
+    }
+
+    public void fillStartDate() {
         onView(withId(R.id.start_date_text)).perform(typeText(start), closeSoftKeyboard());
+    }
+
+    public void fillEndDate() {
         onView(withId(R.id.end_date_text)).perform(typeText(end), closeSoftKeyboard());
+    }
+
+    public void fillSummary() {
         onView(withId(R.id.career_position_summary)).perform(typeText(summary), closeSoftKeyboard());
     }
 
