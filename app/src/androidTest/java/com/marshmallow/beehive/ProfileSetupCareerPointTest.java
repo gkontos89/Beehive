@@ -18,8 +18,10 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -41,9 +43,25 @@ public class ProfileSetupCareerPointTest {
 
     @Test
     public void testAddCareerPointAndSave() {
-        // Fill out career point data and validate against model
         CareerPointCreator careerPointCreator = new CareerPointCreator("Caterpillar", "Peoria, IL", "6/5/2011", "7/3/2017");
-        careerPointCreator.fillView();
+
+        // Test out error messages
+        onView(withId(R.id.career_point_text)).perform(closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+        onView(withId(R.id.career_point_text)).check(matches(hasErrorText("Career Point title cannot be empty")));
+        careerPointCreator.fillTitleText();
+        onView(withId(R.id.career_point_text)).perform(closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+        onView(withId(R.id.career_point_location_text)).check(matches(hasErrorText("Location cannot be empty")));
+        careerPointCreator.fillLocationText();
+        onView(withId(R.id.career_point_location_text)).perform(closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+        onView(withId(R.id.start_date_text)).check(matches(hasErrorText("Start date cannot be empty")));
+        careerPointCreator.fillStartDateText();
+        onView(withId(R.id.start_date_text)).perform(closeSoftKeyboard());
+        onView(withId(R.id.save_button)).perform(click());
+        onView(withId(R.id.end_date_text)).check(matches(hasErrorText("End date cannot be empty")));
+        careerPointCreator.fillEndDateText();
 
         // Add a couple career positions
         onView(withId(R.id.add_career_position_button)).perform(click());

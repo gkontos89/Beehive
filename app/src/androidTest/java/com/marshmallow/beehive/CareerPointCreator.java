@@ -36,9 +36,25 @@ public class CareerPointCreator {
     }
 
     public void fillView() {
+        fillTitleText();
+        fillLocationText();
+        fillStartDateText();
+        fillEndDateText();
+    }
+
+    public void fillTitleText() {
         onView(withId(R.id.career_point_text)).perform(typeText(title), ViewActions.closeSoftKeyboard());
+    }
+
+    public void fillLocationText() {
         onView(withId(R.id.career_point_location_text)).perform(typeText(location), closeSoftKeyboard());
+    }
+
+    public void fillStartDateText() {
         onView(withId(R.id.start_date_text)).perform(typeText(start), closeSoftKeyboard());
+    }
+
+    public void fillEndDateText() {
         onView(withId(R.id.end_date_text)).perform(typeText(end), closeSoftKeyboard());
     }
 
