@@ -80,20 +80,21 @@
 
         </LinearLayout>
 
-        <!--<Button-->
-            <!--android:id="@+id/add_career_position_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/date_layout"-->
-            <!--android:layout_above=""-->
-            <!--android:layout_gravity="end"-->
-            <!--android:text="@string/add_career_position_button_title"-->
-            <!--android:theme="@style/BeehiveButton"/>-->
+        <Button
+            android:id="@+id/add_career_position_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="end"
+            android:layout_below="@+id/date_layout"
+            android:text="@string/add_career_position_button_title"
+            android:theme="@style/BeehiveButton" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/career_positions_rv"
             android:layout_width="match_parent"
-            android:layout_height="285dp"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/save_cancel_layout"
             android:layout_below="@id/add_career_position_button">
 
