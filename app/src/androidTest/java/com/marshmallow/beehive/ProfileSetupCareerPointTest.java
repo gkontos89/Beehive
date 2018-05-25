@@ -12,6 +12,7 @@ import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.ui.profileSetup.ProfileSetupCareerPointActivity;
 
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

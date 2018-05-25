@@ -87,8 +87,10 @@ public class CreateUserWebService extends IntentService {
 
             urlConnection.disconnect();
         } catch (Exception e) {
-            e.printStackTrace();
-            // TODO handle this through the GUI for 'production'
+            String message = e.getMessage();
+            CreateUserStatusBroadcast createUserStatusBroadcast = new CreateUserStatusBroadcast(message, null);
+            Intent createStatusIntent = createUserStatusBroadcast.getFailureBroadcast();
+            sendBroadcast(createStatusIntent);
         }
     }
 }

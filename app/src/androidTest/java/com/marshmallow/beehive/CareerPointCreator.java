@@ -66,7 +66,7 @@ public class CareerPointCreator {
         onView(withId(R.id.cancel_button)).perform(click());
     }
 
-    public void addCareerPoint() {
+    public void addCareerPosition() {
         onView(withId(R.id.add_career_position_button)).perform(click());
     }
 
