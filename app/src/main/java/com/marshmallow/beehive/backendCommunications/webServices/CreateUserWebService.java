@@ -36,7 +36,7 @@ public class CreateUserWebService extends IntentService {
         String password = intent.getStringExtra(passwordKey);
         try {
             // TODO put URL somewhere else
-            URL url = new URL("http://192.168.1.3:8080/api/account");
+            URL url = new URL("http://192.168.1.17:8080/api/account");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
