@@ -1,11 +1,13 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import static org.junit.Assert.*;
 
+import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.ui.profileSetup.ProfileSetupBasicsActivity;
 
@@ -35,7 +37,7 @@ public class ProfileSetupBasicsTest {
 
     @Test
     public void testFillInBasicsInfo() {
-        onView(withId(R.id.profile_name_text)).perform(closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.profile_name_text)).perform(closeSoftKeyboard());
         onView(withId(R.id.next_button)).perform(click());
         onView(withId(R.id.profile_name_text)).check(matches(hasErrorText("Profile name cannot be empty.")));
         onView(withId(R.id.profile_name_text)).perform(typeText("George Kontos"), ViewActions.closeSoftKeyboard());

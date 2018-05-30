@@ -55,4 +55,10 @@ public class GoBackend implements BeehiveBackendInterface {
         Intent intent = new Intent(context, UpdateProfileWebService.class);
         context.startService(intent);
     }
+
+    @Override
+    public String getUserId() {
+        // TODO handle this appropriately
+        return null;
+    }
 }

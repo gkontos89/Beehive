@@ -1,6 +1,7 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -15,6 +16,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNot.not;
 
+import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.ui.login.LoginActivity;
 
 import org.junit.Rule;
@@ -50,7 +52,7 @@ public class CreateAccountTest {
     @Test
     public void testCreateAccountWithCredentials() {
         // Enter in an email and password
-        onView(withId(R.id.email_text)).perform(typeText("gkontos89@gmail.com"), ViewActions.closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.email_text)).perform(typeText("gkontos89@gmail.com"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.password_text)).perform(typeText("password"), ViewActions.closeSoftKeyboard());
 
         // Click create account button

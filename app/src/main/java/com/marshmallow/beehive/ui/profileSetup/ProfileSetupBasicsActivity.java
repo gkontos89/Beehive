@@ -71,10 +71,6 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 profileImageButton.setImageBitmap(bitmap);
-                // Log.d(TAG, String.valueOf(bitmap));
-
-//                ImageView imageView = (ImageView) findViewById(R.id.imageView);
-//                imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }

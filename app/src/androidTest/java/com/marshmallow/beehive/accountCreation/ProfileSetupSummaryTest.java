@@ -1,13 +1,16 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
+import com.marshmallow.beehive.R;
+import com.marshmallow.beehive.RecyclerViewMatcher;
 import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.ui.profileSetup.ProfileSetupSummaryActivity;
 
@@ -44,7 +47,7 @@ public class ProfileSetupSummaryTest {
     @Test
     public void testFillInProfileSummary() {
         // Test empty field errors
-        onView(withId(R.id.summary_text_entry)).perform(ViewActions.closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.summary_text_entry)).perform(ViewActions.closeSoftKeyboard());
         onView(withId(R.id.next_button)).perform(click());
         onView(withId(R.id.summary_text_entry)).check(matches(hasErrorText("Summary text cannot be empty")));
         onView(withId(R.id.summary_text_entry)).perform(typeText("Looking for adventure"), ViewActions.closeSoftKeyboard());

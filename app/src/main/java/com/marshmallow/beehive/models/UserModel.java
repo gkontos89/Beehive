@@ -11,9 +11,9 @@ public class UserModel {
     private int profilePicture;
     private StoryModel userStory;
     private String quickPitch;
+    private String email;
 
     public UserModel() {
-        userStory = new StoryModel();
     }
 
     /**
@@ -26,10 +26,19 @@ public class UserModel {
     public int getProfilePicture() { return profilePicture; }
     // TODO update setter for profile picture
     public void setProfilePicture(int profilePicture) { this.profilePicture = profilePicture; }
-    public StoryModel getUserStory() { return userStory; }
+    public StoryModel getUserStory() {
+        if (userStory == null) {
+            userStory = new StoryModel();
+        }
+        return userStory;
+    }
     public void setUserStory(StoryModel userStory) { this.userStory = userStory; }
     public String getQuickPitch() { return quickPitch; }
     public void setQuickPitch(String quickPitch) { this.quickPitch = quickPitch; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+
 }
 
 

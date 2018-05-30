@@ -1,10 +1,14 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
+
+import com.marshmallow.beehive.R;
+import com.marshmallow.beehive.RecyclerViewMatcher;
 
 import org.hamcrest.Matcher;
 
@@ -43,7 +47,7 @@ public class CareerPointCreator {
     }
 
     public void fillTitleText() {
-        onView(withId(R.id.career_point_text)).perform(typeText(title), ViewActions.closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.career_point_text)).perform(typeText(title), ViewActions.closeSoftKeyboard());
     }
 
     public void fillLocationText() {

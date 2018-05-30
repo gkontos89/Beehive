@@ -48,4 +48,9 @@ public interface BeehiveBackendInterface {
      * Submits user profile updates
      */
     void submitUserProfileUpdates(Context context);
+
+    /**
+     * Retrieves the unique user id of the current profile
+     */
+    String getUserId();
 }

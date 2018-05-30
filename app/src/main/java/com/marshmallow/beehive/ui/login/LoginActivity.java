@@ -17,6 +17,7 @@ import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.backendCommunications.backends.BeehiveBackend;
 import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
 import com.marshmallow.beehive.backendCommunications.broadcasts.SignInStatusBroadcast;
+import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.ui.home.HomeActivity;
 import com.marshmallow.beehive.ui.welcome.WelcomeActivity;
 
@@ -101,8 +102,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         // Check if the user is already signed in and if so move to home screen
         if (BeehiveBackend.getInstance().isUserSignedIn()) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
+            // TODO reenable straight to home after testing is complete
+            BeehiveBackend.getInstance().signOutUser();
+//            Intent intent = new Intent(this, HomeActivity.class);
+//            startActivity(intent);
         }
     }
 
@@ -137,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return false;
         } else {
             emailTextEntry.setError(null);
+            ModelManager.getInstance().getUserModel().setEmail(email);
             return true;
         }
     }

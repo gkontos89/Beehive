@@ -1,18 +1,16 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
 import android.os.SystemClock;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 
+import com.marshmallow.beehive.R;
+import com.marshmallow.beehive.RecyclerViewMatcher;
 import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.ui.login.LoginActivity;
 
-import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +43,7 @@ public class CreateAccountProfileSetupIntegrationTest {
     @Test
     public void testCreateAccountAndProfileSetup() {
         // Enter in an email and password
-        onView(withId(R.id.email_text)).perform(typeText("gkontos89@gmail.com"), ViewActions.closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.email_text)).perform(typeText("testPerson2@gmail.com"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.password_text)).perform(typeText("password"), ViewActions.closeSoftKeyboard());
 
         // Click create account button

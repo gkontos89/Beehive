@@ -1,11 +1,12 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.ui.profileSetup.ProfileSetupCareerActivity;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ public class ProfileSetupCareerTest {
 
     @Test
     public void testSetupCareer() {
-        onView(withId(R.id.add_career_point_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.add_career_point_button)).perform(click());
 
         // Individual Career Point screen
         CareerPointCreator careerPointCreator = new CareerPointCreator("Caterpillar", "Peoria, IL", "6/5/2011", "7/3/2015");

@@ -47,5 +47,12 @@ public class UserModelUnitTest {
         assertEquals(userModel.getUserStory(), storyModel);
     }
 
+    @Test
+    public void testEmail() {
+        String email = "testEmail@gmail.com";
+        userModel.setEmail(email);
+        assertEquals(userModel.getEmail(), email);
+    }
+
     // TODO profile picture
 }

@@ -9,9 +9,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
 import com.marshmallow.beehive.backendCommunications.broadcasts.SignInStatusBroadcast;
+import com.marshmallow.beehive.models.ModelManager;
 
 /**
  * This class implements Firebase backend communications
@@ -87,6 +90,12 @@ public class FirebaseBackend implements BeehiveBackendInterface {
 
     @Override
     public void submitUserProfileUpdates(Context context) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference.child(getUserId()).setValue(ModelManager.getInstance().getUserModel());
+    }
 
+    @Override
+    public String getUserId() {
+        return firebaseAuth.getCurrentUser().getUid();
     }
 }

@@ -1,6 +1,9 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
+
+import com.marshmallow.beehive.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -32,7 +35,7 @@ public class CareerPositionCreator {
     }
 
     public void fillPositionText() {
-        onView(withId(R.id.career_position_text)).perform(typeText(title), ViewActions.closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.career_position_text)).perform(typeText(title), ViewActions.closeSoftKeyboard());
     }
 
     public void fillStartDate() {

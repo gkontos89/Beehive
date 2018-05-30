@@ -1,18 +1,20 @@
-package com.marshmallow.beehive;
+package com.marshmallow.beehive.accountCreation;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
+import com.marshmallow.beehive.R;
+import com.marshmallow.beehive.RecyclerViewMatcher;
 import com.marshmallow.beehive.models.CareerPointModel;
 import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.ui.profileSetup.ProfileSetupCareerPointActivity;
 
 import org.hamcrest.Matcher;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +25,6 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
-import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
@@ -47,7 +48,7 @@ public class ProfileSetupCareerPointTest {
         CareerPointCreator careerPointCreator = new CareerPointCreator("Caterpillar", "Peoria, IL", "6/5/2011", "7/3/2017");
 
         // Test out error messages
-        onView(withId(R.id.career_point_text)).perform(closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.career_point_text)).perform(closeSoftKeyboard());
         onView(withId(R.id.save_button)).perform(click());
         onView(withId(R.id.career_point_text)).check(matches(hasErrorText("Career Point title cannot be empty")));
         careerPointCreator.fillTitleText();
