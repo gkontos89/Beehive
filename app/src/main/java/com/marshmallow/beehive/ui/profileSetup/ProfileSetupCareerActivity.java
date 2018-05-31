@@ -67,6 +67,9 @@ public class ProfileSetupCareerActivity extends AppCompatActivity implements Pro
                 if (allFieldsComplete()) {
                     saveProfileData();
                     BeehiveBackend.getInstance().submitUserProfileUpdates(getApplicationContext());
+                    // TODO handle errors
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
                 }
             }
         });

@@ -12,11 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.models.ModelManager;
 
 import java.io.IOException;
+import java.util.Vector;
 
 public class ProfileSetupBasicsActivity extends AppCompatActivity implements ProfileSetupInterface {
 
@@ -26,7 +28,9 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
     ImageButton profileImageButton;
     Button nextButton;
 
+    // Image handling
     private int PICK_IMAGE_REQUEST = 1;
+    private boolean validImage = false;
 
 
     @Override
@@ -64,16 +68,20 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // TODO have to save entered in data before this kicks off
+        loadProfileData();
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
             Uri uri = data.getData();
-
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 profileImageButton.setImageBitmap(bitmap);
+                ModelManager.getInstance().getUserModel().storeProfilePictureFromBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            validImage = true;
         }
     }
 
@@ -85,7 +93,6 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
 
     @Override
     public void saveProfileData() {
-        // TODO Handle profile picture
         String profileName = profileNameText.getText().toString();
         String profileQuickPitch = profileQuickPitchText.getText().toString();
         ModelManager.getInstance().getUserModel().setUserName(profileName);
@@ -94,7 +101,6 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
 
     @Override
     public Boolean allFieldsComplete() {
-        // TODO how to handle picture selection
         if (TextUtils.isEmpty(profileNameText.getText().toString())) {
             profileNameText.setError("Profile name cannot be empty.");
             return false;
@@ -102,6 +108,11 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
             profileQuickPitchText.setError("Quick pitch cannot be empty.");
             return false;
         }
+        // TODO removing this for now because it can be automated in a test
+//        } else if (!validImage) {
+//            Toast toast = Toast.makeText(getApplicationContext(), "Profile picture not selected", Toast.LENGTH_LONG);
+//            toast.show();
+//        }
 
         return true;
     }
@@ -110,6 +121,10 @@ public class ProfileSetupBasicsActivity extends AppCompatActivity implements Pro
     public void loadProfileData() {
         profileNameText.setText(ModelManager.getInstance().getUserModel().getUserName());
         profileQuickPitchText.setText(ModelManager.getInstance().getUserModel().getQuickPitch());
-        // TODO handle profile picture
+
+        Bitmap bitmap = ModelManager.getInstance().getUserModel().getProfilePictureBitmap();
+        if (bitmap != null) {
+            profileImageButton.setImageBitmap(ModelManager.getInstance().getUserModel().getProfilePictureBitmap());
+        }
     }
 }

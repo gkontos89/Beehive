@@ -9,12 +9,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
 import com.marshmallow.beehive.backendCommunications.broadcasts.SignInStatusBroadcast;
 import com.marshmallow.beehive.models.ModelManager;
+import com.marshmallow.beehive.models.UserModel;
 
 /**
  * This class implements Firebase backend communications
@@ -97,5 +101,22 @@ public class FirebaseBackend implements BeehiveBackendInterface {
     @Override
     public String getUserId() {
         return firebaseAuth.getCurrentUser().getUid();
+    }
+
+    public void getUser() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference.child(getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ModelManager.getInstance().userModel = dataSnapshot.getValue(UserModel.class);
+                ModelManager.getInstance().gotIt = true;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

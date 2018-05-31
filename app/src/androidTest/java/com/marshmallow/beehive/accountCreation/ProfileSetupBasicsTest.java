@@ -33,8 +33,6 @@ public class ProfileSetupBasicsTest {
     @Rule
     public ActivityTestRule<ProfileSetupBasicsActivity> profileSetupBasicsActivityActivityTestRule = new ActivityTestRule<>(ProfileSetupBasicsActivity.class);
 
-    // TODO handle pictures
-
     @Test
     public void testFillInBasicsInfo() {
         onView(ViewMatchers.withId(R.id.profile_name_text)).perform(closeSoftKeyboard());
@@ -44,6 +42,8 @@ public class ProfileSetupBasicsTest {
         onView(withId(R.id.next_button)).perform(click());
         onView(withId(R.id.profile_quick_pitch_text)).check(matches(hasErrorText("Quick pitch cannot be empty.")));
         onView(withId(R.id.profile_quick_pitch_text)).perform(typeText("Big dreamer"), ViewActions.closeSoftKeyboard());
+
+
         onView(withId(R.id.next_button)).perform(click());
     }
 

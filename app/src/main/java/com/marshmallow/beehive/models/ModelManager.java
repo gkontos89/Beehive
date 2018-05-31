@@ -9,10 +9,11 @@ import org.json.JSONObject;
  */
 public class ModelManager {
     private static ModelManager instance = null;
-    private UserModel userModel;
+    public UserModel userModel;
     private String accountId;
     private CareerPointModel activeCareerPointModel = null;
     private CareerPositionModel activeCareerPointPositionModel = null;
+    public boolean gotIt = false;
 
     private ModelManager() {
         userModel = new UserModel();

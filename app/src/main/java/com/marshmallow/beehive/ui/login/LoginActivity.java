@@ -169,7 +169,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void signInSucceeded() {
         hideProgressBar();
-        Intent intent = new Intent(this, WelcomeActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 

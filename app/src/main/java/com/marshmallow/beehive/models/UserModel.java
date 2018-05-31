@@ -1,5 +1,13 @@
 package com.marshmallow.beehive.models;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import com.google.firebase.database.Exclude;
+
+import java.io.ByteArrayOutputStream;
+
 /**
  * This model is for a user account
  *
@@ -8,7 +16,7 @@ package com.marshmallow.beehive.models;
 public class UserModel {
     private String accountId;
     private String userName;
-    private int profilePicture;
+    private String profilePicture;
     private StoryModel userStory;
     private String quickPitch;
     private String email;
@@ -23,9 +31,10 @@ public class UserModel {
     public void setAccountId(String accountId) { this.accountId = accountId; }
     public String getUserName() { return userName; }
     public void setUserName(String userName) { this.userName = userName; }
-    public int getProfilePicture() { return profilePicture; }
-    // TODO update setter for profile picture
-    public void setProfilePicture(int profilePicture) { this.profilePicture = profilePicture; }
+    public String getProfilePicture() { return profilePicture; }
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
     public StoryModel getUserStory() {
         if (userStory == null) {
             userStory = new StoryModel();
@@ -38,7 +47,23 @@ public class UserModel {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
+    @Exclude
+    public Bitmap getProfilePictureBitmap() {
+        if (profilePicture != null) {
+            byte[] decodedString = Base64.decode(profilePicture, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        } else {
+            return  null;
+        }
+    }
 
+    @Exclude
+    public void storeProfilePictureFromBitmap(Bitmap profilePictureBitmap) {
+        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+        profilePictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayBitmapStream);
+        byte[] b = byteArrayBitmapStream.toByteArray();
+        profilePicture = Base64.encodeToString(b, Base64.DEFAULT);
+    }
 }
 
 

@@ -13,8 +13,8 @@ import java.util.Vector;
 public class StoryModel {
     private String summary;
     private List<CareerPointModel> careerPointModels;
-    private Vector<String> pursuits;
-    private Vector<StoryQuestionModel> storyQuestionModels;
+    private List<String> pursuits;
+    private List<StoryQuestionModel> storyQuestionModels;
 
     public StoryModel() {
         careerPointModels = new Vector<>();
@@ -28,6 +28,6 @@ public class StoryModel {
     public String getSummary() { return summary; }
     public void setSummary(String summary) { this.summary = summary; }
     public List<CareerPointModel> getCareerPointModels() { return careerPointModels; }
-    public Vector<String> getPursuits() { return pursuits; }
-    public Vector<StoryQuestionModel> getStoryQuestionModels() { return storyQuestionModels; }
+    public List<String> getPursuits() { return pursuits; }
+    public List<StoryQuestionModel> getStoryQuestionModels() { return storyQuestionModels; }
 }

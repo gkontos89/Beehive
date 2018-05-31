@@ -65,4 +65,8 @@ public class BeehiveBackend implements BeehiveBackendInterface {
     public String getUserId() {
         return backendHandle.getUserId();
     }
+
+    public void getUser() {
+        backendHandle.getUser();
+    }
 }
