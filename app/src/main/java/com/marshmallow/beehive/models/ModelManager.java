@@ -9,11 +9,10 @@ import org.json.JSONObject;
  */
 public class ModelManager {
     private static ModelManager instance = null;
-    public UserModel userModel;
+    private UserModel userModel;
     private String accountId;
     private CareerPointModel activeCareerPointModel = null;
     private CareerPositionModel activeCareerPointPositionModel = null;
-    public boolean gotIt = false;
 
     private ModelManager() {
         userModel = new UserModel();
@@ -30,6 +29,8 @@ public class ModelManager {
     }
 
     public UserModel getUserModel() { return userModel; }
+    public void setUserModel(UserModel userModel) { this.userModel = userModel; }
+
     public String getAccountId() { return accountId; }
     public void setAccountId(String accountId) { this.accountId = accountId; }
 

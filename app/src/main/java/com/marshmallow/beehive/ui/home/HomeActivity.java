@@ -1,5 +1,9 @@
 package com.marshmallow.beehive.ui.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +13,15 @@ import android.widget.ImageView;
 
 import com.marshmallow.beehive.R;
 import com.marshmallow.beehive.backendCommunications.backends.BeehiveBackend;
+import com.marshmallow.beehive.backendCommunications.broadcasts.LoadUserStatusBroadcast;
 import com.marshmallow.beehive.models.ModelManager;
 
 public class HomeActivity extends AppCompatActivity {
 
 
+    // BroadcastReceiver
+    private IntentFilter intentFilter;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +42,29 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.load_picture).setOnClickListener(new View.OnClickListener() {
+        // Set up broadcastReceiver for loading the user profile data
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(LoadUserStatusBroadcast.action);
+
+        broadcastReceiver = new BroadcastReceiver() {
             @Override
-            public void onClick(View v) {
-                profilePictureImageView.setImageBitmap(ModelManager.getInstance().getUserModel().getProfilePictureBitmap());
+            public void onReceive(Context context, Intent intent) {
+
             }
-        });
+        };
 
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
 
-        // TODO load data blah blah, notify when data is retrieved
-        BeehiveBackend.getInstance().getUser();
-
-
-//        profilePictureImageView.setImageBitmap(ModelManager.getInstance().getUserModel().getProfilePictureBitmap());
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 }

@@ -53,4 +53,9 @@ public interface BeehiveBackendInterface {
      * Retrieves the unique user id of the current profile
      */
     String getUserId();
+
+    /**
+     * Loads the current user data
+     */
+    void loadUserData(Context context, Activity activity);
 }

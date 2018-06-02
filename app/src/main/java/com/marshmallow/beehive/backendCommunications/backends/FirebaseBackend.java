@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.marshmallow.beehive.backendCommunications.broadcasts.CreateUserStatusBroadcast;
+import com.marshmallow.beehive.backendCommunications.broadcasts.LoadUserStatusBroadcast;
 import com.marshmallow.beehive.backendCommunications.broadcasts.SignInStatusBroadcast;
 import com.marshmallow.beehive.models.ModelManager;
 import com.marshmallow.beehive.models.UserModel;
@@ -103,20 +104,24 @@ public class FirebaseBackend implements BeehiveBackendInterface {
         return firebaseAuth.getCurrentUser().getUid();
     }
 
-    public void getUser() {
+    @Override
+    public void loadUserData(final Context context, Activity activity) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
         databaseReference.child(getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ModelManager.getInstance().userModel = dataSnapshot.getValue(UserModel.class);
-                ModelManager.getInstance().gotIt = true;
+                ModelManager.getInstance().setUserModel(dataSnapshot.getValue(UserModel.class));
+                LoadUserStatusBroadcast loadUserStatusBroadcast = new LoadUserStatusBroadcast(null, null);
+                Intent intent = loadUserStatusBroadcast.getSuccessfulBroadcast();
+                context.sendBroadcast(intent);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                LoadUserStatusBroadcast loadUserStatusBroadcast = new LoadUserStatusBroadcast(databaseError.getMessage(), null);
+                Intent intent = loadUserStatusBroadcast.getFailureBroadcast();
+                context.sendBroadcast(intent);
             }
         });
-
     }
 }

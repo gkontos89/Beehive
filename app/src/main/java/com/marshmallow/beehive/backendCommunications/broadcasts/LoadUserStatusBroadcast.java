@@ -3,9 +3,9 @@ package com.marshmallow.beehive.backendCommunications.broadcasts;
 import android.content.Intent;
 
 /**
- * Created by George on 5/17/2018.
+ * Created by George on 6/1/2018.
  */
-public class CreateUserStatusBroadcast extends BaseStatusBroadcast {
+public class LoadUserStatusBroadcast extends BaseStatusBroadcast{
 
     // Keys
     public static final String statusMessageKey = "statusMessage";
@@ -13,15 +13,15 @@ public class CreateUserStatusBroadcast extends BaseStatusBroadcast {
     public static final String statusKey = "status";
 
     // Fields
-    public static final String action = "CreateUserStatusBroadcast";
-    private String statusMessage = null;
-    private String data = null;
+    public static final String action = "LoaderUserStatusBroadcast";
+    private final String statusMessage;
+    private final String data;
 
     // Statuses
-    public static final String CREATE_ACCOUNT_SUCCESSFUL = "CREATE_ACCOUNT_SUCCESSFUL";
-    public static final String CREATE_ACCOUNT_FAILED = "CREATE_ACCOUNT_FAILED";
+    public static final String USER_LOADED_SUCCESSFUL = "USER_LOAD_SUCCESSFUL";
+    public static final String USER_LOADED_FAILED = "USER_LOAD_FAILED";
 
-    public CreateUserStatusBroadcast(String statusMessage, String data) {
+    public LoadUserStatusBroadcast(String statusMessage, String data) {
         super();
         this.statusMessage = statusMessage;
         this.data = data;
@@ -33,13 +33,13 @@ public class CreateUserStatusBroadcast extends BaseStatusBroadcast {
 
     @Override
     public Intent getSuccessfulBroadcast() {
-        intent.putExtra(statusKey, CREATE_ACCOUNT_SUCCESSFUL);
+        intent.putExtra(statusKey, USER_LOADED_SUCCESSFUL);
         return intent;
     }
 
     @Override
     public Intent getFailureBroadcast() {
-        intent.putExtra(statusKey, CREATE_ACCOUNT_FAILED);
+        intent.putExtra(statusKey, USER_LOADED_FAILED);
         return intent;
     }
 }

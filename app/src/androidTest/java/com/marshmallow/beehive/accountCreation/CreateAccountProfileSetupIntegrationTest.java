@@ -43,7 +43,7 @@ public class CreateAccountProfileSetupIntegrationTest {
     @Test
     public void testCreateAccountAndProfileSetup() {
         // Enter in an email and password
-        onView(ViewMatchers.withId(R.id.email_text)).perform(typeText("testPerson4@gmail.com"), ViewActions.closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.email_text)).perform(typeText("testPerson10@gmail.com"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.password_text)).perform(typeText("password"), ViewActions.closeSoftKeyboard());
 
         // Click create account button

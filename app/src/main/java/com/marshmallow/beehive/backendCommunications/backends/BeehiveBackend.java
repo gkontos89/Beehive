@@ -66,7 +66,8 @@ public class BeehiveBackend implements BeehiveBackendInterface {
         return backendHandle.getUserId();
     }
 
-    public void getUser() {
-        backendHandle.getUser();
+    @Override
+    public void loadUserData(Context context, Activity activity) {
+        backendHandle.loadUserData(context, activity);
     }
 }
